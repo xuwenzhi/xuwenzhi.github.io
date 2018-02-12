@@ -15,11 +15,7 @@ layout: default
         <h2>
           <a class="post-link" href="{{ post.url | relative_url }}">{{ post.title | escape }}</a>
         </h2>
-        {% if site.preview_posts %}
-        <p>
-          {{ post.content | strip_html | truncatewords:25 }}
-        </p>
-        {% endif %}
+        <p>{{ post.excerpt | strip_html }}</p>
       </li>
     {% endfor %}
   </ul>

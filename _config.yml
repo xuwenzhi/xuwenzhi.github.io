@@ -28,6 +28,8 @@ preview_posts: true
 permalink: /:title
 paginate: 10 # increase this value to reflect how many posts per page you want
 paginate_path: "/page:num/"
+excerpt_separator:  '<!-- more -->'
+
 
 # If you want to link only specific pages in your header, uncomment
 # this and add the path to the pages in order as they should show up
