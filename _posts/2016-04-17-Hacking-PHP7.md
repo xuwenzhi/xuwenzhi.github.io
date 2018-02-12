@@ -4,6 +4,7 @@ title: Hacking PHP7
 tags: php php-internals
 ---
 
+
 本篇文章主要内容取自`Joe Watkins`的一篇博客[Hacking PHP7](http://blog.krakjoe.ninja/2016/03/hacking-php-7.html?showComment=1460821720197#c1125948120735452921)(但并不是完全照搬
 过来，取其精华，呵呵)，如果你正在学习PHP内核相关的知识，这个过程会相当枯燥，并且我猜你并不知道如何下手，我认为这篇文章会给你一个非常不错的路线图！
 

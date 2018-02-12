@@ -15,11 +15,7 @@ layout: default
       <h2>
         <a class="post-link" href="{{ post.url | relative_url }}">{{ post.title | escape }}</a>
       </h2>
-      {% if site.preview_posts %}
-      <p>
-        {{ post.content | strip_html | truncatewords:25 }}
-      </p>
-      {% endif %}
+      <p>{{ post.excerpt | strip_html }}</p>
     </li>
   {% endfor %}
 {% endif %}
@@ -38,7 +34,7 @@ layout: default
   {% for tag_obj in site.tags %}
     {% assign tag = tag_obj | first %}
     {% assign count = site.tags[tag].size %}
-    <a href="{{site.baseurl}}/tag/{{ tag }}">
+    <a href="/tag/{{ tag }}">
       <span class="tag">{{ tag }}{% if count != 1 %}<span class="tag-count">({{ count }})</span>{% endif %}</span></a>
   {% endfor %}
 </div>

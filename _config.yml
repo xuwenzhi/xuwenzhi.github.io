@@ -7,7 +7,7 @@ description: >
 baseurl: "/" # the subpath of your site, e.g. /blog
 url: "http://xuwenzhi.com" # the base hostname & protocol for your site, e.g. http://example.com
 
-website: http://www.xuwenzhi.com
+website: http://xuwenzhi.com
 github_username:  xuwenzhi
 twitter_username: xuwenzhi
 facebook_username: xuwenzhi
@@ -17,8 +17,8 @@ stackoverflow_username: xuwenzhi # (developer story)
 collections:
   - setup
 
-# disqus:
-#   shortname:
+disqus:
+   shortname: xuwenzhi
 
 # Minimaless date format
 # refer to http://shopify.github.io/liquid/filters/date/ if you want to customize this
