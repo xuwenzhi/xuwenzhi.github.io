@@ -1,5 +1,5 @@
 ---
 title: Github
 permalink: /github/
-redirect_to: https://github.com/brettinternet/minimaless
+redirect_to: https://github.com/xuwenzhi/
 ---

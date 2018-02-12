@@ -1,25 +1,17 @@
-title: Minimaless Demo
-author: GitHub User
-email: your-email@domain.com
+title: 徐文志程序猿
+author: xuwenzhi
+email: xuwenzhi7@gmail.com
 description: >
-  Write an awesome description for your new site here. You can edit this
-  line in _config.yml. It will appear in your document head meta (for
-  Google search results) and in your feed.xml site description.
+  Web程序猿，专注系统架构设计及性能优化。
 
-baseurl: "/minimaless" # the subpath of your site, e.g. /blog
-url: "http://www.brettgardiner.net/minimaless" # the base hostname & protocol for your site, e.g. http://example.com
+baseurl: "/" # the subpath of your site, e.g. /blog
+url: "http://xuwenzhi.com" # the base hostname & protocol for your site, e.g. http://example.com
 
-website: https://www.brettinternet.com
-github_username:  brettinternet
-bitbucket_username: brettinternet
-codepen_username: brettinternet
-linkedin_username: brettinternet
-twitter_username: brettinternet
-facebook_username: brettinternet
-instagram_username: brettinternet
-keybase_username: brettinternet
-paypal_username: brettinternet
-stackoverflow_username: brettinternet # (developer story)
+website: http://www.xuwenzhi.com
+github_username:  xuwenzhi
+twitter_username: xuwenzhi
+facebook_username: xuwenzhi
+stackoverflow_username: xuwenzhi # (developer story)
 
 
 collections:
@@ -40,10 +32,8 @@ paginate_path: "/page:num/"
 # If you want to link only specific pages in your header, uncomment
 # this and add the path to the pages in order as they should show up
 header_pages:
-  - _pages/blog.md
   - _pages/about.md
   - _pages/contact.md
-  - _pages/setup.md
   - _pages/github.md
 
 plugins:
