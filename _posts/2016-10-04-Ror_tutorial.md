@@ -12,7 +12,7 @@ tags: redis redis-internal
 
 ## 启动
 
-> Raisl应用通常以rails console 或 rails server启动
+> Rails应用通常以rails console 或 rails server启动
 
 
 #### 1.railties/bin/rails
