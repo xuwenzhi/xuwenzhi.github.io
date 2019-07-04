@@ -1,7 +1,7 @@
 ---
 layout: post
-title: Redis Src
-tags: redis redis-internal
+title: Ruby on Rails Tutorial
+tags: ruby rails
 ---
 
 # Rails初始化
