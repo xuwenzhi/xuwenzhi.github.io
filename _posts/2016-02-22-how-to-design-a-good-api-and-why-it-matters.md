@@ -6,6 +6,8 @@ tags: design
 
 # 为什么API设计很重要？应该怎样去设计？
 
+<!-- more -->
+
 Joshua Bloch
 Principal Software Engineer  - Google
 
