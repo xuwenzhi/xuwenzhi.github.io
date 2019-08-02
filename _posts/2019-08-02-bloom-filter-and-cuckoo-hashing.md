@@ -6,7 +6,7 @@ tags: design
 
 # Bloom Filter
 
-[wiki:布隆过滤器](https://zh.wikipedia.org/wiki/%E5%B8%83%E9%9A%86%E8%BF%87%E6%BB%A4%E5%99%A8)
+<!--more-->
 
 ## 布隆过滤器的原理
 
@@ -80,6 +80,8 @@ return bit_array[index1] && bit_array[index2] && bit_array[index3] ...
 3. 注册判断是否注册过此名称
 
 ## refer
+
+[wiki:布隆过滤器](https://zh.wikipedia.org/wiki/%E5%B8%83%E9%9A%86%E8%BF%87%E6%BB%A4%E5%99%A8)
 
 [Bloom Filters – Introduction and Python Implementation](https://www.geeksforgeeks.org/bloom-filters-introduction-and-python-implementation/)
 
