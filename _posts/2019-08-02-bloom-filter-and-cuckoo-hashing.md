@@ -6,7 +6,7 @@ tags: design
 
 # Bloom Filter
 
-<!--more-->
+<!-- more -->
 
 ## 布隆过滤器的原理
 
