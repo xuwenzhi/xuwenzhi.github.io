@@ -2,16 +2,14 @@ title: 徐文志程序猿
 author: xuwenzhi
 email: xuwenzhi7@gmail.com
 description: >
-  Web程序猿，专注系统架构设计及性能优化。
+  Engineering.
 
 baseurl: "/" # the subpath of your site, e.g. /blog
 url: "http://xuwenzhi.com" # the base hostname & protocol for your site, e.g. http://example.com
 
-website: http://xuwenzhi.com
+# website: http://xuwenzhi.com
 github_username:  xuwenzhi
-twitter_username: xuwenzhi
 facebook_username: xuwenzhi
-stackoverflow_username: xuwenzhi # (developer story)
 
 
 collections:

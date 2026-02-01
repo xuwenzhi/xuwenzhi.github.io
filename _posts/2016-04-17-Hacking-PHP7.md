@@ -4,9 +4,7 @@ title: Hacking PHP7
 tags: php php-internals
 ---
 
-
-本篇文章主要内容取自`Joe Watkins`的一篇博客[Hacking PHP7](http://blog.krakjoe.ninja/2016/03/hacking-php-7.html?showComment=1460821720197#c1125948120735452921)(但并不是完全照搬
-过来，取其精华，呵呵)，如果你正在学习PHP内核相关的知识，这个过程会相当枯燥，并且我猜你并不知道如何下手，我认为这篇文章会给你一个非常不错的路线图！
+如果你正在学习PHP内核相关的知识，这个过程会相当枯燥，并且我猜你并不知道如何下手，这篇文章会给你一个不错的路线！
 
 <!-- more -->
 
@@ -22,7 +20,6 @@ tags: php php-internals
 
 ![php5代码执行流程](http://img.xuwenzhi.com/php-code-execute-process.png?zoom=2&resize=710%2C394)
 
-
 此图也正是PHP5代码执行的流程，之所以这么说是因为PHP7的代码执行流程稍有不同，PHP7中多加了一道工序，叫做抽象语法树AST(参考[何为抽象语法树](https://www.jianshu.com/p/8fa61a552ecf))，那
 到底这道工序加在哪里，就在Parsing之后也就是语法分析之后和编译之前，对于加了这道工序之后会不会导致PHP7程序执行变慢的问题，可以参考[PHP7 的抽象语法树（AST）](https://www.tuicool.com/articles/iYJNB3V)带来的变化。
 
@@ -30,10 +27,9 @@ tags: php php-internals
 
 ---
 
-好了，既然对于PHP7的执行过程都已经了如指掌，接下来就深入PHP7内核中去，
+好了，既然对于PHP7的执行有个大致的了解，接下来就深入PHP7内核中去，
 在本例子中我们将在内核中实现一个新的函数，该函数的功能基本和print()函
-数的功能一样，功能虽然简单，但是对于理解PHP7内核很有意义，耐心走下去吧~
-
+数的功能一样，功能虽然简单，但是对于理解PHP7内核很有意义。
 
 最终成果:
 
@@ -41,10 +37,9 @@ tags: php php-internals
 ./sapi/cli/php -r "echo hackphp('hacking PHP7');"
 {% endhighlight %}
 
-
 ### 构造词法分析片段
 
-编辑Zend/zend_language_scanner.l文件，该文件中你会发现大量T_开头的变量，
+编辑Zend/zend*language_scanner.l文件，该文件中你会发现大量T*开头的变量，
 你可以试着搜索一下你T_IF、T_ECHO或者T_INCLUDE，所以不难想象，在该文件
 中定义了PHP中的常用的关键字的片段，假如你在PHP代码中使用了if判断，那么
 词法分析就会映射到T_IF，为下一步语法分析做准备，好到此为止我打住，在如
@@ -64,15 +59,14 @@ RETURN_TOKEN(T_WHILE);
 }
 {% endhighlight %}
 
-
 ### 构造语法表达式
 
 编辑Zend/zend_language_parser.y，在此文件中依然可以找到类似于T_IF这样的变量，此文件中将为我们的hackphp()函数构造一些表达式和一些语法解析规则，并为下一步生成语法树做准备!
 
 {% highlight c %}
-%token T_INCLUDE      "include (T_INCLUDE)"
+%token T_INCLUDE "include (T_INCLUDE)"
 //...start
-%token T_HACKPHP "hackphp (T_HACKPHP)" 
+%token T_HACKPHP "hackphp (T_HACKPHP)"
 //...end
 %token T_INCLUDE_ONCE "include_once (T_INCLUDE_ONCE)"
 
@@ -91,18 +85,19 @@ RETURN_TOKEN(T_WHILE);
             { $$ = zend_ast_create_decl(ZEND_AST_CLOSURE, $3 | ZEND_ACC_STATIC, $2, $4,
                   zend_string_init("{closure}", sizeof("{closure}") - 1, 0),
                   $6, $8, $11, $9); }
+
 //...start
-    |   T_HACKPHP '(' expr ')' { $$ = zend_ast_create(ZEND_AST_HACKPHP, $3); }
+| T_HACKPHP '(' expr ')' { $$ = zend_ast_create(ZEND_AST_HACKPHP, $3); }
 //...end
 ;
 
 function:
-    T_FUNCTION { $$ = CG(zend_lineno); }
+T_FUNCTION { $$ = CG(zend_lineno); }
 ;
 {% endhighlight %}
 
 3.通知AST解析我们的hackphp()函数
-编辑Zend/zend_ast.h，在枚举变量_zend_ast_kind中添加
+编辑Zend/zend_ast.h，在枚举变量\_zend_ast_kind中添加
 {% highlight c %}
 ZEND_AST_CONTINUE,
 //...start
@@ -115,17 +110,17 @@ ZEND_AST_HACKPHP,
 
 {% highlight c %}
 //...省略
-        case ZEND_AST_CLOSURE:
-            zend_compile_func_decl(result, ast);
-            return;
+case ZEND*AST_CLOSURE:
+zend_compile_func_decl(result, ast);
+return;
 //...start
-        case ZEND_AST_HACKPHP:  
-            zend_compile_hackphp(result, ast);  
-            return;  
+case ZEND_AST_HACKPHP:  
+ zend_compile_hackphp(result, ast);  
+ return;  
 //...end
-        default:
-            ZEND_ASSERT(0 /* not supported */);
-    }    
+default:
+ZEND_ASSERT(0 /* not supported \_/);
+}  
 }
 {% endhighlight %}
 
@@ -134,11 +129,11 @@ ZEND_AST_HACKPHP,
 {% highlight c %}
 void zend_compile_hackphp(znode *result, zend_ast *ast)
 {
-       zend_ast *expr_ast = ast->child[0];
-       znode expr_node;
-       zend_compile_expr(&expr_node, expr_ast);
-       zend_emit_op(result, ZEND_HACKPHP, &expr_node, NULL);
-} 
+zend_ast \*expr_ast = ast->child[0];
+znode expr_node;
+zend_compile_expr(&expr_node, expr_ast);
+zend_emit_op(result, ZEND_HACKPHP, &expr_node, NULL);
+}
 {% endhighlight %}
 
 5.让Zend VM可以认识并执行hackphp()函数生成的OPCODE
@@ -146,23 +141,23 @@ void zend_compile_hackphp(znode *result, zend_ast *ast)
 编辑Zend/zend_vm_def.h文件，我的建议是首先定位到文件底部，然后添加如下函数
 
 {% highlight c %}
-ZEND_VM_HANDLER(184, ZEND_HACKPHP, ANY, ANY)   
+ZEND_VM_HANDLER(184, ZEND_HACKPHP, ANY, ANY)  
 {  
  USE_OPLINE  
  zend_free_op free_op1;  
- zval *op1;  
+ zval \*op1;
 
- SAVE_OPLINE();  
- op1 = GET_OP1_ZVAL_PTR_UNDEF(BP_VAR_R);  
+SAVE_OPLINE();  
+ op1 = GET_OP1_ZVAL_PTR_UNDEF(BP_VAR_R);
 
- if (Z_TYPE_P(op1) != IS_STRING) {  
-  zend_throw_exception_ex(NULL, 0,  
-   "hackphp expects a string !");  
-  HANDLE_EXCEPTION();  
+if (Z_TYPE_P(op1) != IS_STRING) {  
+ zend_throw_exception_ex(NULL, 0,  
+ "hackphp expects a string !");  
+ HANDLE_EXCEPTION();  
  }  
- ZVAL_COPY(EX_VAR(opline->result.var), op1);  
+ ZVAL_COPY(EX_VAR(opline->result.var), op1);
 
- FREE_OP1();  
+FREE_OP1();  
  ZEND_VM_NEXT_OPCODE_CHECK_EXCEPTION();  
 }  
 {% endhighlight c %}
@@ -180,10 +175,11 @@ make
 {% endhighlight %}
 
 ## 验证hackphp()
+
 {% highlight c %}
 ./sapi/cli/php -r "echo hackphp('hacking PHP7!');"
 {% endhighlight %}
 
 # 结语
-如果看到输出"hacking PHP7!"，那么恭喜你，你已经了解了PHP代码的执行流程并且了解了PHP7内核的一些很重要的知识。细想一下还是有收获的。通过此试验，对于如何学习PHP内核知识及阅读PHP源代码我相信你也许有了答案。
 
+如果看到输出"hacking PHP7!"，那么恭喜你，你已经了解了PHP代码的执行流程并且了解了PHP7内核的一些很重要的知识。细想一下还是有收获的。通过此试验，对于如何学习PHP内核知识及阅读PHP源代码我相信你也许有了答案。
