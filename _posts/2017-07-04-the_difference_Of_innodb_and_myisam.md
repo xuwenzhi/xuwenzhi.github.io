@@ -19,17 +19,17 @@ CREATE TABLE layout_test(
 
 ```
 
-|    区别    | InnoDB |MyISAM|
-| :-------| :--------: |:-------:|
-| 锁 |  行级锁 |表级锁|
-| 是否支持全文索引       |  否(但可以配合sphinx) |是|
-|是否支持自动崩溃恢复|是|否|
-|是否支持延迟索引落盘|否|是(需开启DELAY_KEY_WRITE)|
-| 主要不同点      |InnoDB中，聚簇索引"就是"表，所以不像MyISAM那样需要独立的行存储。与MyISAM不同的是，InnoDB的二级索引的叶子节点保存的不是行指针，而是主键值。  | 按照数据插入顺序存储在磁盘上，因为是按照顺序，所以在存储时存在一个行号(从0开始)，可以很容易创建索引 |
+| Difference | InnoDB | MyISAM |
+| :------- | :--------: | :-------: |
+| Lock | Row-level lock | Table-level lock |
+| Full-text index support | No (but can be combined with Sphinx) | Yes |
+| Automatic crash recovery support | Yes | No |
+| Delayed index flushing to disk | No | Yes (requires DELAY_KEY_WRITE enabled) |
+| Main difference | In InnoDB, clustered index "is" the table, so unlike MyISAM, there's no need for separate row storage. Unlike MyISAM, InnoDB's secondary index leaf nodes store the primary key value, not row pointers. | Stores data on disk in insertion order. Because of the sequential storage, there's a row number (starting from 0) when storing, making index creation easy |
 
 
-## 其他原则
+## Other Principles
 
-- 如果没有为表建立主键，那么InnoDB会因为聚簇索引的缘故，自定义一个主键，但这种结果引发的效果真的不如自己加一个主键字段，不仅保证了性能，而且保证了索引的数据量！而且这样保证了数据的顺序存储以及在当页被插满后可以继续插入新页，可以杜绝页分裂和数据碎片。
+- If you don't create a primary key for a table, InnoDB will create a custom primary key due to clustered indexing. But the effect of this result is really not as good as adding a primary key field yourself. This not only ensures performance but also ensures the data volume of the index! Moreover, this ensures sequential data storage and allows continued insertion into new pages when a page is full, which can prevent page splits and data fragmentation.
 
-- 使用索引扫描来做排序时，如果需要保证性能，一个关键的点是，order by 与索引列的顺序保持一致。当需要对两个索引列一同进行order by时，也是一样的道理，如果其中有一个索引列顺序不同时，可以存储该字段的反顺序列！
+- When using index scans for sorting, a key point to ensure performance is that the ORDER BY should be consistent with the index column order. When you need to ORDER BY two index columns together, the same logic applies. If one of the index columns has a different order, you can store the reverse order of that column!

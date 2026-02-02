@@ -1,155 +1,171 @@
 ---
 layout: post
-title: 【读书总结】- 程序员度量
+title: Book Summary - Programmer Metrics
 tags: reading
 ---
 
-# 本书的目的
-- 帮助团队鉴定和重视所有对成功重要的贡献和技能——并给经理提供更多改善团队的信息和能力。
-- 暴露潜在的问题，打造更好的团队。
-- 不能忽视的一个词 客观
-- 用度量数据来评估绩效污染了这个纯洁的策论。
+# Purpose of This Book
+
+- Help teams identify and value all contributions and skills important to success — and give managers more information and ability to improve teams.
+- Expose potential problems and build better teams.
+- An important word that cannot be ignored: Objectivity
+- Using metric data to evaluate performance pollutes this pure discussion.
 
 <!-- more -->
 
-# 思考
-作者以体育运动来做类比，显示了软件开发与体育运动相似，近年来一些体育团体通过计算机数据分析技术来分析团队成员的数据以及竞争对手的数据以最大化成功的概率，然而作为程序员却鲜有一个正规的数据分析。
+# Thoughts
 
-# 选择需要度量的数据
+The author uses sports as an analogy, showing that software development is similar to sports. In recent years, some sports organizations have used computer data analysis techniques to analyze team members' data and competitors' data to maximize the probability of success. However, formal data analysis is rarely done for programmers.
 
-- 程序员在其核心职责方面做得如何？
-- 程序员的代码写得如何
-- 程序员的设计做得如何
-- 程序员对自己的代码测试得如何
+# Choosing Data to Measure
 
+- How well does the programmer perform in their core responsibilities?
+- How well does the programmer write code?
+- How well does the programmer design?
+- How well does the programmer test their own code?
 
-# 程序员在其核心职责之外的贡献如何？
-- 程序员能覆盖多少领域
-- 程序员足够主动吗
-- 程序员创新吗
-- 程序员处理压力的能力
-- 程序员在逆境中的表现
-- 程序员和他人的互动如何
+# How Does the Programmer Contribute Beyond Core Responsibilities?
 
-# 程序员是否展现领导力
-- 是否激励了队友
-- 指导队友的情况怎样
-- 程序员理解和遵循方向的情况如何 （即理解需求背后的大局情况）
-- 程序员协助他人多少
+- How many areas can the programmer cover?
+- Is the programmer proactive enough?
+- Is the programmer innovative?
+- The programmer's ability to handle pressure
+- The programmer's performance in adversity
+- How does the programmer interact with others?
 
-# 关于程序员技能及贡献的数据
- >生产力（抛出速度和质量）通常包含编码，设计及测试等，或者根据代码量，或者以任务的复杂度为维度，当然这个复杂度要一视同仁，对复杂度打分，分为1-5。
-对于收集程序员生产力的建议：
+# Does the Programmer Demonstrate Leadership?
 
-- 将设计、编码和测试作为（单独的）任务进行跟踪。
-- 为任务建立复杂度评分体系，并且为每个任务进行评分。
-- 如果任务不能落在复杂度级别的范围内，则对其进行相应的合并或者拆分。
-- 在任务完成后对复杂度评分进行调整，以确保准确和一致。
-- 如果多个程序员负责同一任务，出于追踪目的对复杂度评分进行等分。
-- 不跟踪开发阶段发现和修复的bug。
-- 就如同其他的任务一样，分别跟踪生产环境的bug修复。
-- 对编码阶段的设计、测试和测试开发工作和编码任务进行合并。
-- 如同其他的任务一样，分别跟踪独立于编码的设计、测试或者测试开发任务。
-- 对程序员未能完成任务的次数进行跟踪。
-- 如果任务是部分完成的，则下调任务的复杂度评分。
+- Does the programmer inspire teammates?
+- How well does the programmer mentor teammates?
+- How well does the programmer understand and follow direction (i.e., understanding the big picture behind requirements)?
+- How much does the programmer help others?
 
-## 速度
-- 以每周或两周为周期跟踪速度。
-- 以复杂度总分值/周期来评估速度
+# Data on Programmer Skills and Contributions
 
-## 准确性
-所以，在此处我建议按照如下的步骤来跟踪程序员准确性：
-·对发布后的所有产品问题进行跟踪。所谓产品问题是功能失常，或者是系统没有按
-·预期执行。按照对用户影响的严重程度对每个产品问题进行评分，保持度量的一致性和简单
-·性，并考虑调高回归bug严重性。对每个问题影响到的客户的百分比进行估计和跟踪。
-·定义细分的产品领域，把每个产品问题分配给相应的产品领域，识别出从事每个区
-·域的程序员。如果把一个产品的问题分配到由多个程序员负责的领域，则出于跟踪目的，在程序
-·员之间等分该问题。不要根据修复这些问题所涉及的工作的复杂度来进行评分。
+> Productivity (output speed and quality) typically includes coding, design, and testing, etc. It can be measured by code volume or task complexity. Of course, complexity should be measured consistently. Score complexity from 1-5.
 
-## 广度 
+Suggestions for collecting programmer productivity:
+- Track design, coding, and testing as separate tasks.
+- Establish a complexity scoring system for tasks and score each task.
+- If a task doesn't fit within the complexity range, merge or split it accordingly.
+- Adjust complexity scores after task completion to ensure accuracy and consistency.
+- If multiple programmers are responsible for the same task, divide the complexity score equally for tracking purposes.
+- Don't track bugs found and fixed during the development phase.
+- Track production bug fixes separately, just like other tasks.
+- Merge design, testing, and test development work during the coding phase with coding tasks.
+- Track design, testing, or test development tasks that are separate from coding as individual tasks.
+- Track the number of times programmers fail to complete tasks.
+- If a task is partially completed, lower the task's complexity score.
 
-即一个程序员处理的产品业务是否广泛，可以通过追踪bug数或者根据版本控制工具来度量
+## Speed
 
-- 乐于助人
-- 创新性，主动性
+- Track speed weekly or bi-weekly.
+- Evaluate speed as total complexity score / period
 
-## 双战记案例
-- 将更高复杂度的任务集中于少量的程序员；
-- 一定数量的程序员跨多个产品领域工作；
-- 程序员感到挑战并且希望证明自己。
+## Accuracy
 
-# 程序员度量
+So, here I suggest following these steps to track programmer accuracy:
+- Track all product issues after release. Product issues are malfunctions or cases where the system doesn't perform as expected.
+- Score each product issue by the severity of user impact, maintaining consistent and simple metrics, and consider increasing severity for regression bugs.
+- Estimate and track the percentage of customers affected by each issue.
+- Define subdivided product areas, assign each product issue to the corresponding area, and identify programmers working on each area.
+- If a product issue is assigned to an area with multiple programmers responsible, divide the issue equally among programmers for tracking purposes.
+- Don't score based on the complexity of work involved in fixing these issues.
 
-### 技能度量
-### 输入数据
+## Breadth
+
+Whether a programmer handles a wide range of product business, can be measured by tracking bug counts or version control tools.
+
+- Helpfulness
+- Innovation, Proactiveness
+
+## Tale of Two Cities Case Study
+
+- Concentrate higher complexity tasks on fewer programmers
+- A certain number of programmers work across multiple product areas
+- Programmers feel challenged and want to prove themselves
+
+# Programmer Metrics
+
+### Skill Metrics
+
+### Input Data
+
 ![http://img.xuwenzhi.com/programer_evalute_input.png](http://img.xuwenzhi.com/programer_evalute_input.png)
 
-### 进攻度量
+### Offensive Metrics
 
-主要介绍了一些统计的数据以及计算相关的公式
-- 得分 程序员解决问题复杂度的之和
-- 多能 程序员完成任务的工作量
-- 火力 程序员完成任务的平均复杂度 得分/多能
-- 助攻 测量程序员被打断的次数以及程序员帮助其他人的次数。   中断次数之和+帮助次数之和
-- 温度 在特定时间内的生产力变化情况。或者说是效率变化情况，但温度高并不意味着质量就高
-- 进攻影响力 项目推进情况，进攻影响力=得分+多能+助攻
-- 防守度量 程序员帮助修改紧急产品问题的频度。按照紧急指数来进行记录并打分。 具体情况具体分析，因为在一个成熟的产品上严重级别的bug不会太多，所以防守度量的战线可以拉的长一点
-- 抢断 主动处理的潜在问题数量或者帮助团队创造机会的数量
-- 防守影响力 避免严重问题的能力
+This mainly introduces some statistical data and related formulas:
+- Points: Sum of complexity of problems solved by the programmer
+- Versatility: Amount of work completed by the programmer
+- Firepower: Average complexity of tasks completed by the programmer = Points / Versatility
+- Assists: Measures the number of times a programmer is interrupted and helps others. Sum of interruptions + Sum of help instances
+- Temperature: Productivity changes within a specific time period. Or changes in efficiency. But high temperature doesn't mean high quality.
+- Offensive Impact: Project advancement. Offensive Impact = Points + Versatility + Assists
 
-### 精度度量
-失误 未完成任务的总和
-错误 产品的严重度*受影响的用户
-加-减 加－减=得分－失误－错误
+- Defensive Metrics: Frequency of programmer helping fix urgent product issues. Record and score by urgency index. Analyze specific situations specifically, because severe bugs won't be too many on mature products, so defensive metrics can have a longer timeline.
+- Steals: Number of potential issues proactively handled or opportunities created for the team
+- Defensive Impact: Ability to avoid serious problems
 
+### Precision Metrics
 
-### 对于不同的层次，哪些度量指标很重要？
+- Turnovers: Sum of incomplete tasks
+- Errors: Product severity × Affected users
+- Plus-Minus: Plus-Minus = Points - Turnovers - Errors
 
-##### 架构师
-- 火力
-- 助攻
-- 活动范围
-- 防守 
+### Which Metrics Are Important for Different Levels?
 
-##### 资深工程师
-- 得分
-- 进攻影响力
-- 防守影响力
-- 温度
+##### Architects
 
-##### 初级程序员
-- 多能
-- 抢断
-- 失误
-- 加减
+- Firepower
+- Assists
+- Activity Range
+- Defense
 
-而一般由于初级程序员通常具有更多的可能性，少了更多的模式。
+##### Senior Engineers
 
-### 响应数据（具体指用户或客户的反馈）
-建议记录的数据有
+- Points
+- Offensive Impact
+- Defensive Impact
+- Temperature
+
+##### Junior Programmers
+
+- Versatility
+- Steals
+- Turnovers
+- Plus-Minus
+
+Junior programmers typically have more possibilities and fewer patterns.
+
+### Response Data (specifically user or customer feedback)
+
+Suggested data to record:
 
 ![http://img.xuwenzhi.com/programer_evalute_response.png](http://img.xuwenzhi.com/programer_evalute_response.png)
 
-### 需要从中记录哪些数据呢？
+### What Data Should Be Recorded?
 
-##### 技能度量及公式
+##### Skill Metrics and Formulas
+
 ![http://img.xuwenzhi.com/QQ20160810-1@2x.png](http://img.xuwenzhi.com/QQ20160810-1@2x.png)
 
-- 胜场数
-- 胜场速度 获取一个胜场所需要的平均时间，越小越好。
-- 输场 丢失的活跃用户量
-- 输场速度 丢失一个活跃用户的评论时间
-- 罚球胜场比PPW 罚球胜场比（Penalities Per Win，PPW）=罚球数/胜场
- 
+- Wins
+- Win Speed: Average time needed to get a win. Lower is better.
+- Losses: Amount of lost active users
+- Loss Speed: Average time to lose an active user
+- Penalties Per Win (PPW): Penalties Per Win = Penalties / Wins
 
-# 程序员度量实战步骤
-- 找到发起人 通常为领导或者资深成员
-- 建立焦点小组 由于团队规模不确定，通常会找到3-5人作为度量的起始参与者
-- 确定度量数据 以团队为单位可以度量 胜场 输场 胜场速度 输场速度 罚球 罚球胜场比 ，如果焦点小组觉得可以度量以程序员为单位的数据也是可以的，通常包括 得分多能  救援 错误
-- 以大概季度为单位焦点小组要进行总结 总结现有数据是否真的对团队有意义或是否有进行下去的必要
-- 度量数据要公开 任何人都可以访问
-- 扩展到整个团队
+# Programmer Metrics Implementation Steps
 
-# 有益的结果
-- 导师制 比如处理程序员错误较多，也可以由一位错误较少的程序员作为他的导师
-- 绩效 嗯，到这里就写不下去了
+- Find a sponsor: Usually a leader or senior member
+- Establish a focus group: Due to uncertain team size, typically find 3-5 people as initial participants
+- Determine metrics: Team-level metrics can include Wins, Losses, Win Speed, Loss Speed, Penalties, Penalties Per Win. If the focus group thinks programmer-level metrics are feasible, they can include Points, Versatility, Rescues, Errors
+- The focus group should summarize roughly quarterly: Summarize whether existing data is truly meaningful for the team or whether there's a need to continue
+- Metrics should be public: Anyone can access them
+- Extend to the entire team
+
+# Beneficial Results
+
+- Mentorship: For example, if a programmer has many errors, a programmer with fewer errors can be their mentor
+- Performance: Well, I can't write anymore here

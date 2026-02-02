@@ -7,26 +7,26 @@ tags: php internal
 
 # realpath_cache: the true culprit
 
-当我们使用include/require函数或者autoload时，我们应该考虑realpath_cache。Realpath Cache是PHP针对文件和文件夹的路径缓存的特性，为了能够最小化文件磁盘IO。
+When we use include/require functions or autoload, we should consider realpath_cache. Realpath Cache is a PHP feature for caching file and folder paths, designed to minimize file disk IO.
 
 <!-- more -->
 
-# brief 
+# Brief
 
-PHP5.1.0时提出，到目前为止官方文档也没有太多介绍，比如realpath\_cache\_get(), realpath\_cache\_size(), clearstatcache()和php.ini中的realpath\_cache\_size和realpath\_cache\_ttl。能够找到一篇老文章有介绍[http://blog.jpauli.tech/2014/06/30/realpath-cache.html](http://blog.jpauli.tech/2014/06/30/realpath-cache.html)。
+Introduced in PHP 5.1.0, there's still not much official documentation to this day, such as realpath\_cache\_get(), realpath\_cache\_size(), clearstatcache() and realpath\_cache\_size and realpath\_cache\_ttl in php.ini. An older article with an introduction can be found at [http://blog.jpauli.tech/2014/06/30/realpath-cache.html](http://blog.jpauli.tech/2014/06/30/realpath-cache.html).
 
 
-# background
+# Background
 
-当我们访问一个文件时，PHP使用Unix系统命令 **stat()** 处理它的路径，它会返回文件的inode。
-  
-PHP将它称为realpath\_cache\_bucket（不包含权限和所有者等信息），所以如果我们尝试访问相同文件两次的话，将会省去一次bucket查找。
+When we access a file, PHP uses the Unix system command **stat()** to process its path, which returns the file's inode.
 
-如果希望看到更深层次的内容，可以查看PHP源码[https://github.com/php/php-src/blob/php-7.0.0/Zend/zend_virtual_cwd.c](https://github.com/php/php-src/blob/php-7.0.0/Zend/zend_virtual_cwd.c)
+PHP calls this the realpath\_cache\_bucket (not including permissions and owner information), so if we try to access the same file twice, it saves one bucket lookup.
+
+For deeper content, you can check the PHP source code at [https://github.com/php/php-src/blob/php-7.0.0/Zend/zend_virtual_cwd.c](https://github.com/php/php-src/blob/php-7.0.0/Zend/zend_virtual_cwd.c)
 
 # realpath_cache_get()
 
-realpath\_cache\_get这个函数上在PHP5.3.2介绍的，它会返回所有缓存的真实路径，类似于下面这样
+The realpath\_cache\_get function was introduced in PHP 5.3.2. It returns all cached real paths, similar to the following:
 
 ```
 Array
@@ -73,31 +73,31 @@ Array
             [realpath] => /var/www/html/release1/index.php
             [expires] => 1504549899
         )
-)；
+);
 ```
-- key 是一个浮点数，代表与路径相关的hash散列
-- is_dir 是一个布尔型，当路径为文件夹，则为true
-- realpath 是文件/文件夹的路径
-- expires 是一个数字，它代表了路径缓存过期的时间，可以通过realpath_cache_ttl获取
+- key is a floating-point number representing the hash associated with the path
+- is_dir is a boolean; true when the path is a directory
+- realpath is the path of the file/directory
+- expires is a number representing when the path cache expires, obtainable via realpath_cache_ttl
 
-在前面的路径例子中，**/var/www/current/index.php** 是很特殊的，其他的路径均与它有关联。也就是这一个路径被分为多个部分。这个例子中真正的路径是/var/www/html/release1/index.php，因为/var/www/current是软链到/var/www/html/release1这里的。
+In the path example above, **/var/www/current/index.php** is special; other paths are all associated with it. That is, this one path is divided into multiple parts. In this example, the actual path is /var/www/html/release1/index.php because /var/www/current is symlinked to /var/www/html/release1.
 
 > The realpath cache is process bound, and not shared into shared memory
 
 > because the realpath cache is stored on the process level not in shared memory like Opcache.
 
 
-意味着这个缓存必须在每一个FPM进程过期或进程死掉，所以如果使用到了PHP-FPM来处理请求，需要等到PHP-FPM的所有子进程的缓存过期，这对于我们理解这个配置production-no-cache是很有用的，即使在软链切换之后OPCache禁用，PHP注意到real path发生变化是有时差的。
+This means this cache must expire in each FPM process or when the process dies. So if using PHP-FPM to handle requests, you need to wait for all PHP-FPM child process caches to expire. This is very useful for understanding the production-no-cache configuration, where even after symlink switching and OPCache is disabled, there's a time lag before PHP notices the real path change.
 
-所以，我们需要调整real path带来的影响，比如以下的这些参数 realpath_cache_size和 realpath_cache_ttl。如果我们的Web应用有相当大数量的文件，我们需要增大realpath\_cache\_size，另外的realpath\_cache\_ttl，代表了realpath的缓存时间。
+So we need to adjust the impact of real path, such as the parameters realpath_cache_size and realpath_cache_ttl. If our web application has a considerable number of files, we need to increase realpath\_cache\_size. Additionally, realpath\_cache\_ttl represents the cache time for realpath.
 
-如果需要禁用realpath cache，可以这样设置:
+To disable realpath cache, you can set:
 
 ```
 realpath_cache_size=0k
 realpath_cache_ttl=-1
 ```
 
-# refer
+# Reference
 
 [https://engineering.facile.it/blog/eng/realpath-cache-is-it-all-php-opcache-s-fault/](https://engineering.facile.it/blog/eng/realpath-cache-is-it-all-php-opcache-s-fault/)

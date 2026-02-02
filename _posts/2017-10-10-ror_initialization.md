@@ -4,34 +4,34 @@ title: Ruby on Rails Initialization
 tags: ruby rails
 ---
 
-# Rails初始化
+# Rails Initialization
 
 <!-- more -->
 
-## 启动
+## Startup
 
-> Rails应用通常以rails console 或 rails server启动
+> Rails applications are typically started with rails console or rails server
 
 
-#### 1.railties/bin/rails
+#### 1. railties/bin/rails
 
 ```
-//载入railties/bin/rails
+// Load railties/bin/rails
 version = ">= 0"
 load Gem.bin_path('railties', 'rails', version)
 ```
 
 ```
-//载入cli
+// Load cli
 require "rails/cli"
 ```
 
 ```
-//执行rails
+// Execute rails
 Rails::AppRailsLoader.exec_app_rails
 ```
 
-###### What's the Railties?
+###### What's Railties?
 [http://api.rubyonrails.org/classes/Rails/Railtie.html](http://api.rubyonrails.org/classes/Rails/Railtie.html)
 
 > Rails::Railtie is the core of the Rails framework and provides several hooks to extend Rails and/or modify the initialization process.
@@ -39,9 +39,10 @@ Rails::AppRailsLoader.exec_app_rails
 
 #### 1.2 railties/lib/rails/app_rails_loader.rb
 
-> exec_app_rails模块的主要功能是去执行你的Rails应用中bin/rails
+> The main function of the exec_app_rails module is to execute bin/rails in your Rails application
+
 ```
-//执行rails server命令
+// Execute rails server command
 exec ruby bin/rails server
 ```
 
@@ -55,8 +56,8 @@ require_relative '../config/boot'
 require 'rails/commands'
 ```
 
-_APP_PATH需要在后来的rails command中使用
-../config/boot用来载入bundle_
+_APP_PATH needs to be used in rails command later
+../config/boot is used to load bundle_
 
 #### 1.4 config/boot.rb
 
@@ -64,12 +65,12 @@ _APP_PATH需要在后来的rails command中使用
 ENV['BUNDLE_GEMFILE'] ||= File.expand_path('../../Gemfile', __FILE__)
 require 'bundler/setup' # Set up gems listed in the Gemfile.
 ```
-_标准的Rails应用通过Gemfile来管理应用依赖，此处用于声明Gemfile命令，并且使用bundler/setup设置_
+_Standard Rails applications manage application dependencies through Gemfile. This is used to declare the Gemfile command and set up using bundler/setup_
 
 
 #### 1.5 rails/commands.rb
 
-当config/boot.rb执行完后，接下来的是rails/commands，这个文件于帮助解析别名，类似于
+After config/boot.rb executes, next is rails/commands. This file helps parse aliases, similar to:
 
 ```
 aliases = {
@@ -81,18 +82,18 @@ aliases = {
   "r"  => "runner"
 }
 ```
-_比如当执行rails s 时，此处会将s替换为server_
+_For example, when executing rails s, this will replace s with server_
 
 
 #### 1.6 rails/commands/command_tasks.rb
 
-当键入错误的rails命令，run_command函数会抛出一个错误信息。当键入正确匹配的命令时，则会执行响应的命令。
+When an incorrect rails command is entered, the run_command function throws an error message. When a correctly matching command is entered, the corresponding command is executed.
 
 ```
-//commands_tasks.rb
+// commands_tasks.rb
 
 COMMAND_WHITELIST = %(plugin generate destroy console server dbconsole application runner new version help)
- 
+
 def run_command!(command)
   command = parse_command(command)
   if COMMAND_WHITELIST.include?(command)
@@ -102,7 +103,7 @@ def run_command!(command)
   end
 end
 
-//当键入rails server命令
+// When rails server command is entered
 def server
   set_application_directory!
   require_command!("server")
@@ -119,65 +120,65 @@ end
 ```
 
 #### 1.7 actionpack/lib/action_dispatch.rb
-动作分发(Action Dispatch)是Rails框架中的路由等组件。它增强了路由、Session和Middleware的功能。
+Action Dispatch is the routing and other components in the Rails framework. It enhances the functionality of routing, sessions, and middleware.
 
 
 #### 1.8 rails/commands/server.rb
-这个文件中定义的Rails::Server类是继承自Rack::Server类的。当Rails::Server.new被调用时，会在 rails/commands/server.rb中调用一个initialize方法。
+The Rails::Server class defined in this file inherits from the Rack::Server class. When Rails::Server.new is called, an initialize method is called in rails/commands/server.rb.
 
 
-What's the Rack?
-> Now, say you’re a web server. You have this Rails app loaded in you. And some browser came to you with that request having path ‘/users’. As a server you understand this HTTP request. But you don’t know what to do with it. You have to give it to your Rails app, because it knows very well what to do with such a request.
+What's Rack?
+> Now, say you're a web server. You have this Rails app loaded in you. And some browser came to you with that request having path '/users'. As a server you understand this HTTP request. But you don't know what to do with it. You have to give it to your Rails app, because it knows very well what to do with such a request.
 
-> There is a problem though. Your Rails app does not understand browser requests directly. You need to translate it in a way that he can make sense of it, work with it and then give you a response which you yourself can understand. But the Rails app is kind of a nut-job and doesn’t co-operate easily. So you take the app to a counsellor, to come up with a system.
+> There is a problem though. Your Rails app does not understand browser requests directly. You need to translate it in a way that he can make sense of it, work with it and then give you a response which you yourself can understand. But the Rails app is kind of a nut-job and doesn't co-operate easily. So you take the app to a counsellor, to come up with a system.
 
-> The counsellor’s name is ‘Rack’. He says, ‘Look Rails app, the server is ready to work together. He’s going to translate the HTTP request in a format that I’ll tell him to. This format will be easy for you to understand. In return, you have to give him a response that he can easily work with. I’ll tell you how your response should look like. Okay?’
+> The counsellor's name is 'Rack'. He says, 'Look Rails app, the server is ready to work together. He's going to translate the HTTP request in a format that I'll tell him to. This format will be easy for you to understand. In return, you have to give him a response that he can easily work with. I'll tell you how your response should look like. Okay?'
 
 [What's Rack in Ruby/Rails](http://blog.gauravchande.com/what-is-rack-in-ruby-rails)
 [Understanding Rack apps and middleware](https://blog.engineyard.com/2015/understanding-rack-apps-and-middleware)
 
 
 #### 1.9 Rack: lib/rack/server.rb
-Rack::Server会为所有基于Rack的应用提供服务接口，现在它已经是Rails框架的一部分了。
+Rack::Server provides a service interface for all Rack-based applications and is now part of the Rails framework.
 
-此时主要做的事情是:
+The main things done at this point are:
 
 ```
 obj_rack_server = new Rack::Server
 obj_rack_server->initialize()
-//再然后回到rails/commands/server.rb
+// Then back to rails/commands/server.rb
 
 obj_rack_server->set_environment()
 ```
 
-//以及一些Web Server相关Host、Port等相关参数的配置
+// And some web server related Host, Port and other parameter configurations
 
 #### 1.10 config/application
-当require APP_PATH操作执行完毕后。config/application.rb 被载入。
+After the require APP_PATH operation is complete, config/application.rb is loaded.
 
 
 #### 1.11 Rails::Server#start
-config/application载入后，server.start方法被调用。
+After config/application is loaded, the server.start method is called.
 
 
 #### 1.12 config/environment.rb
-这是config.ru (rails server)和信使(Passenger)都要用到的文件，是两者交流的媒介。之前的操作都是为了创建Rack和Rails。
+This is the file used by both config.ru (rails server) and Passenger, serving as the medium for communication between them. Previous operations were to create Rack and Rails.
 
-这个文件是以引用 config/application.rb开始
+This file starts by referencing config/application.rb
 
 #### 1.13 config/application.rb
-这个文件需要引用config/boot.rb。
+This file needs to reference config/boot.rb.
 
-## 加载Rails
+## Loading Rails
 
-接下来:
+Next:
 
 ```
 require 'rails/all'
 ```
 
 #### 2.1 railties/lib/rails/all.rb
-本文件中将引用和Rails框架相关的所有内容：
+This file will reference all content related to the Rails framework:
 
 ```
 require "rails"
@@ -196,12 +197,12 @@ require "rails"
 end
 ```
 
-至此，Rails相关的所有组件都加载完毕。
+At this point, all Rails-related components are loaded.
 
 
-#### 2.2 回到config/environment.rb
+#### 2.2 Back to config/environment.rb
 
-rails/application.rb将会调用我们自定义的Rails应用(比如blog):Rails.application.initialize!
+rails/application.rb will call our custom Rails application (e.g., blog): Rails.application.initialize!
 
 ```
 # Initialize the Rails application.
@@ -209,19 +210,19 @@ Rails.application.initialize!
 ```
 
 
-#### 2.3 railties/lib/rails/application.rb(调用过程)
+#### 2.3 railties/lib/rails/application.rb (calling process)
 
 ```
 def initialize!(group=:default) #:nodoc:
   raise "Application has been already initialized." if @initialized
-  run_initializers(group, self)//调用railties/lib/rails/initializable.rb中的run_initializers
+  run_initializers(group, self) // Call run_initializers in railties/lib/rails/initializable.rb
   @initialized = true
   self
 end
 ```
 
 ```
-//railties/lib/rails/initializable.rb中的run_initializers
+// run_initializers in railties/lib/rails/initializable.rb
 def run_initializers(group=:default, *args)
   return if instance_variable_defined?(:@ran)
   initializers.tsort_each do |initializer|
@@ -232,6 +233,6 @@ end
 ```
 
 
-# refer
+# Reference
 
-[Rails 应用的初始化过程](http://guides.ruby-china.org/initialization.html)
+[Rails Application Initialization Process](http://guides.ruby-china.org/initialization.html)

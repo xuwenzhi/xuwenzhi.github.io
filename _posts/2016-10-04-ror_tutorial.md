@@ -13,15 +13,16 @@ config/routes.rb
 [routing](http://guides.ruby-china.org/routing.html)
 
 ```
-//Laravel的 route:list
+// Laravel's route:list equivalent
 rake routes
 ```
-默认路由
+
+Default Route
 ```
 get 'welcome/index'
 ```
 
-REST路由
+REST Routes
 ```
 resources :articles
 ```
@@ -30,7 +31,7 @@ resources :articles
 
 app/controllers/*
 
-创建路由
+Create Controller
 ```
 ./bin/rails g controller articles
 ```
@@ -40,10 +41,10 @@ app/controllers/*
 
 app/views/*
 
-Rails的模板命名由3部分组成
+Rails template naming consists of 3 parts:
 
 ```
-//一个例子 new.html.erb
+// An example: new.html.erb
 {locale:[:en], formats:[:html], handlers:[:erb, :builder, :coffee]}
 ```
 
@@ -76,11 +77,11 @@ view:
 
 ##### Form
 
-**表单构造器form_for**
+**Form Builder form_for**
 
 [form_for API](http://api.rubyonrails.org/classes/ActionView/Helpers/FormHelper.html#method-i-form_for-label-Resource-oriented+style)
 
-通过FormBuilder对象f来创建表单中的input等表单。
+Use the FormBuilder object f to create form inputs and other form elements.
 
 ```
 <%= form_for :article do |f| %>
@@ -98,20 +99,20 @@ view:
 <% end %>
 ```
 
-> 上面这种表单叫做 “模型相关表单” ，因为这个表单使用了 **:article**作为模型，还有一种叫做模型无关表单，类似于搜索框，是无需和模型相关联的，具体例子：
+> The form above is called a "model-related form" because it uses **:article** as the model. There's also a model-independent form, similar to a search box, which doesn't need to be associated with a model. Here's an example:
 
 ```
 <% form_tag "client_workouts/find" do%>
 <%= text_field_tag :search_string%>
-<%= submit_tag "搜索"%>
+<%= submit_tag "Search"%>
 <% end %>
 ```
 
-**Set Form Submit Url**
+**Set Form Submit URL**
 
 <%= form_for :article,url: articles_path do |f| %>
 
-_注意url和前面的逗号不能有空格_
+_Note: There must be no space between url and the preceding comma_
 
 **Generated Form**
 
@@ -147,11 +148,11 @@ end
 ```
 def create
   @article = Article.new(article_params)
- 
+
   @article.save
   redirect_to @article
 end
-#定义允许接收的参数
+# Define permitted parameters
 private
   def article_params
     params.require(:article).permit(:title, :text)
@@ -168,7 +169,7 @@ end
 
 ```
 <h1>Editing article</h1>
-<!-- method:patch 则对应REST架构，对应update方法-->
+<!-- method:patch corresponds to REST architecture, maps to update method-->
 <%= form_for :article, url: article_path(@article), method: :patch do |f| %>
   <% if @article.errors.any? %>
   <div id="error_explanation">
@@ -185,24 +186,24 @@ end
     <%= f.label :title %><br>
     <%= f.text_field :title %>
   </p>
- 
+
   <p>
     <%= f.label :text %><br>
     <%= f.text_area :text %>
   </p>
- 
+
   <p>
     <%= f.submit %>
   </p>
 <% end %>
- 
+
 <%= link_to 'Back', articles_path %>
 ```
 
 ```
 def update
   @article = Article.find(params[:id])
- 
+
   if @article.update(article_params)
     redirect_to @article
   else
@@ -219,7 +220,7 @@ end
                         method: :delete, data: { confirm: 'Are you sure?' } %>
 ```
 
-**Common Form(new && edit)**
+**Common Form (new && edit)**
 
 app/views/article/_form.html.erb
 
@@ -292,30 +293,30 @@ Running via Spring preloader in process 7386
 
 **Relation Model**
 
-Create new Comment model have relation with Article.
+Create new Comment model that has a relation with Article.
 
 ```
 rails generate model Comment commenter:string body:text article:references
-//comment belong article.
+// comment belongs to article.
 ```
 
 ```
 ./bin/rake db:migrate RAILS_ENV=development
 ```
 
-Relation route
+Relation Route
 ```
 resources :articles do
   resources :comments
 end
 ```
 
-Generate comment controller
+Generate Comment Controller
 ```
 rails generate controller Comments
 ```
 
-Create function
+Create Function
 ```
 class CommentsController < ApplicationController
   def create
@@ -331,7 +332,7 @@ class CommentsController < ApplicationController
 end
 ```
 
-Add comments form
+Add Comments Form
 ```
 <h2>Add a comment:</h2>
 <%= form_for([@article, @article.comments.build]) do |f| %>
@@ -349,7 +350,7 @@ Add comments form
 <% end %>
 ```
 
-Show article's comments 
+Show Article's Comments
 ```
 <h2>Comments</h2>
 <% @article.comments.each do |comment| %>
@@ -365,9 +366,9 @@ Show article's comments
 <% end %>
 ```
 
-Delete Relation Data
+Delete Related Data
 
-_dependent: : destroy_
+_dependent: :destroy_
 ```
 class Article < ActiveRecord::Base
   has_many :comments, dependent: :destroy
@@ -379,19 +380,19 @@ end
 
 ## Migration
 
-**generate migrate file in db/migrate**
+**Generate Migrate File in db/migrate**
 
 ```
 rails generate model
 ```
 
-**execute migration**
+**Execute Migration**
 
 ```
 rake db:migrate
 ```
 
-**set migration env**
+**Set Migration Environment**
 
 ```
 rake db:migrate RAILS_ENV=production
@@ -400,7 +401,7 @@ rake db:migrate RAILS_ENV=production
 
 ## Auth
 
-**http simple auth**
+**HTTP Simple Auth**
 ```
 http_basic_authenticate_with name: "xuwenzhi", password: "111111", except: [:index, :show]
 ```
@@ -414,50 +415,50 @@ redirect_to "/articles/#{@ad.id}"
 
 ----
 
-# 其他记录
+# Other Notes
 
 
-# 创建表迁移
+# Create Table Migration
 
 ```
 bin/rails generate model ticket name:string seat_id_seq:string address:text price_paid:decimal email_address:string
 
-// 执行写入数据库
+// Execute and write to database
 
 bin/rails db:migrate RAILS_ENV=development
 
-// 新增字段phone
+// Add new phone field
 bin/rails g migration AddPhoneToTickets phone:string
-// 继续执行写入
+// Continue execution and write
 bin/rails db:migrate RAILS_ENV=development
 ```
 
-# 运行表迁移
+# Run Table Migration
 
 ```
 rake db:migrate
 ```
 
 
-# CURD生成器
+# CRUD Generator
 
 ```
-bin/rails generate scaffold article title:string content:text author:string 
+bin/rails generate scaffold article title:string content:text author:string
 
 bin/rails db:migrate RAILS_ENV=development
 ```
 
-# 创建Model
+# Create Model
 
 ```
 bin/rails g model ad name:string description:text price:decimal seller_id:integer email:string img_url:string
 
-# 插入数据库
+# Insert into database
 
 bin/rake db:migrate
 ```
 
-# 创建控制器
+# Create Controller
 
 ```
 bin/rails g controller ads
@@ -465,7 +466,7 @@ bin/rails g controller ads
 
 
 
-# 超级模板
+# Super Template
 
 app/views/layouts/ads.html.erb
 ```
@@ -491,9 +492,9 @@ app/views/ads/index.html.erb
 ```
 
 
-# 关系如何处理?
+# How to Handle Relationships?
 
-加入航班和航班所拥有的座位这是一种关系，那么我只需要在航班的model中定义
+If there's a relationship between flights and seats that belong to flights, I just need to define in the flight model:
 
 ```
 class Flight < ApplicationRecord
@@ -502,14 +503,14 @@ end
 
 ```
 
-但是要注意，之所以能这样使用是因为flight表和seat表中是通过强制的约定实现的，比如seat表中一定存在flight_id字段才可以，这样的话，在航班所属的座位就作为@flight的一个属性存在，即
+Note that this works because there's a forced convention between the flight and seat tables. For example, the seat table must have a flight_id field. This way, the seats belonging to the flight exist as a property of @flight:
 
 ```
 @flight = Flight.find(params[:id])
 @seats = @flight.seats
 ```
 
-当然，这种关系也不是一定要存在，还可以通过查询的方式获取该航班下的座位
+Of course, this relationship doesn't have to exist. You can also get the seats for the flight through a query:
 
 ```
 @seats = Seat.where(:flight_id => params[:id])
@@ -520,32 +521,32 @@ end
 
 [http://guides.ruby-china.org/routing.html](http://guides.ruby-china.org/routing.html)
 
-## 配置
+## Configuration
 
 ```
 config/route.rb
 ```
 
-## 默认路由
+## Default Route
 
 ```
 root 'welcome#index'
 ```
 
-## 让route和controller连接起来
+## Connect Route to Controller
 
 ```
-// example/com/index链接将映射到index_controller.rb的index方法
+// example/com/index will map to index_controller.rb's index method
 get 'index', to: 'index#index'
 ```
 
-## URL传参
+## URL Parameters
 
 ```
 get 'blog/:id', to: 'blog#id'
 ```
 
-## REST路由
+## REST Routes
 
 ```
 resource :articles
@@ -566,17 +567,17 @@ resource :articles
               DELETE /articles/:id(.:format)      articles#destroy
 ```
 
-#### 一次声明多个REST路由
+#### Declare Multiple REST Routes at Once
 ```
 resources :photos, :books, :videos
 ```
 
-#### 指定controller
+#### Specify Controller
 ```
 resources :photos, controller: 'images'
 ```
 
-## 控制器命名空间
+## Controller Namespace
 
 ```
 namespace :admin do
@@ -605,67 +606,67 @@ Running via Spring preloader in process 21811
 [http://192.168.33.10:3000/admin/user](http://192.168.33.10:3000/admin/user)
 
 
-## 去掉命名空间的前缀
+## Remove Namespace Prefix
 
-如上，如何使用[http://192.168.33.10:3000/user](http://192.168.33.10:3000/user)，就能访问到上面对应的admin/user_controller.rb呢？
+As above, how to access the corresponding admin/user_controller.rb using [http://192.168.33.10:3000/user](http://192.168.33.10:3000/user)?
 
 ```
 scope module: 'admin' do
     resources :user
 end
 ```
-或者:
+Or:
 
 ```
 resources :user, module: 'admin'
 ```
 
-## 路由映射到命名空间中的action
+## Route Mapping to Action in Namespace
 
-即使用[http://192.168.33.10:3000/admin/articles](http://192.168.33.10:3000/admin/articles)这种方式访问article_controller.rb。
+Access article_controller.rb using [http://192.168.33.10:3000/admin/articles](http://192.168.33.10:3000/admin/articles).
 ```
 scope '/admin' do
     resources :articles
 end
 ```
-或者:
+Or:
 ```
 resources :articles, path: '/admin/articles'
 ```
 
 
-## REST嵌套资源
+## REST Nested Resources
 
-文章和文章评论的关系在Model中可以使用这样的方式来对应。
+The relationship between articles and article comments can be represented in the Model like this:
 ```
 class Articles < ActiveRecord::Base
   has_many :comments
 end
- 
+
 class Comments < ActiveRecord::Base
   belongs_to :articles
 end
 ```
-类似的，在路由中也能反映出这样的关系
+Similarly, this relationship can be reflected in routes:
 ```
 resources :articles do
     resources :comments
 end
 ```
 
-即可以使用[http://192.168.33.10:3000/articles](http://192.168.33.10:3000/articles)来访问文章；使用[http://192.168.33.10:3000/articles/10/comments](http://192.168.33.10:3000/articles/10/comments)来访问文章对应的评论。
+You can access articles using [http://192.168.33.10:3000/articles](http://192.168.33.10:3000/articles); use [http://192.168.33.10:3000/articles/10/comments](http://192.168.33.10:3000/articles/10/comments) to access comments for an article.
 
 
 # Controller
 
-## Controller基类
-Rails的控制器都继承自ApplicationController，而ApplicationController继承自ActionController::Base
+## Controller Base Class
+Rails controllers all inherit from ApplicationController, which inherits from ActionController::Base
 ```
 class ArticlesController < ApplicationController
-    
+
 end
 ```
-## 参数过滤器
+## Parameter Filter
 
 ```
 class ArticlesController < ApplicationController
@@ -676,23 +677,23 @@ class ArticlesController < ApplicationController
 end
 ```
 
-指定参数类型
+Specify Parameter Type
 ```
-//指定id必须为数组
+// Specify id must be an array
 params.permit(id: [])
 ```
 
-嵌套参数
+Nested Parameters
 ```
 params.permit(:name, { emails: [] },hobbies: [] }])
 
 ```
 
-# Rails验证器
+# Rails Validators
 
-rails的验证器是一种检查数据合法性的工具，通常我们在controller层对view提交上来的数据进行合法性检验，然而rails的验证器是在model层对数据进行验证，当在controller层执行 **.save** 或者 **.update_attributes**操作之前会自动执行验证器检验。
+Rails validators are tools for checking data validity. Typically we validate data submitted from views in the controller layer, but Rails validators validate data at the model layer. Before executing **.save** or **.update_attributes** operations in the controller layer, validators automatically run.
 
-具体用法在model中添加规则，比如规定某个字段必须为数字时:
+To use in the model, add rules. For example, to require a field to be a number:
 
 ```
 class Article < ApplicationRecord
@@ -700,9 +701,9 @@ class Article < ApplicationRecord
 end
 ```
 
-## 显示错误信息
+## Display Error Messages
 
-当验证失败时，页面需要回到表单提交页，而不是跳转到数据的详情页，这是很正常的，然而存在这样的事情，当验证器无法通过时，controller需要知道model没有保存成功，怎么做呢?
+When validation fails, the page should return to the form submission page, not jump to the data details page. This is normal. However, when a validator fails, the controller needs to know the model wasn't saved. How?
 
 ```
 if @article.save
@@ -711,27 +712,27 @@ else
     render :template => "articles/new"
 ```
 
-当然，articles/new的模板的<form>中需要存在这样的域用于显示错误
+Of course, the articles/new template's <form> needs to have a field to display errors:
 
 <%=f.error_message%>
 
-## 其他验证器:
+## Other Validators:
 
 ```
-// 验证必填字段
+// Validate required field
 validates_presence_of :field_name
-//验证长度
+// Validate length
 validates_presence_of :field_name, :maximum=>32
-//使用正则表达式验证
+// Validate using regular expression
 validates_format_of :field_name, :with=>/regular
-//检查数据表中有没有与其相同的数据
+// Check if data already exists in the table
 validates_uniqueness_of :field_name
-//检查域中是有一个给定的值
+// Check if field has a given value
 validates_inclusion_of :field_name, :in=>[value1, value2]
 
 ```
 
-## 跳过验证器
+## Skip Validators
 
 ```
 model.save(false)
@@ -739,13 +740,13 @@ model.update_attributes(false)
 ```
 
 
-## 自定义验证器
+## Custom Validators
 
 ```
 class Seat < ApplicationRecord
 def validator
     if(baggage > 100)
-        errors.add_to_base("你的行李太重了!")
+        errors.add_to_base("Your baggage is too heavy!")
     end
 end
 end
@@ -757,36 +758,36 @@ end
 
 # Exception
 
-## 默认的 500 和 404 模板
+## Default 500 and 404 Templates
 
 public/500.html
 
 
 # Log
 
-日志文件目录
+Log File Directory
 
 ```
 log/development.log
-# -- 
+# --
 log/test.log
 ```
 
-## 过滤日志
+## Filter Logs
 
-过滤特定请求参数
+Filter Specific Request Parameters
 ```
 config.filter_parameters << :password
 ```
 
 # Security
 
-## 强制使用 HTTPS 协议
+## Force HTTPS Protocol
 
 ```
 force_ssl
 ```
-设置隔离
+Set Isolation
 ```
 force_ssl only: :cheeseburger
 # or
@@ -794,18 +795,18 @@ force_ssl except: :cheeseburger
 ```
 
 
-## HTTP 身份认证
+## HTTP Authentication
 
-#### 基本身份认证
+#### Basic Authentication
 ```
 http_basic_authenticate_with name: "xuwenzhi", password: "111111", except: [:index, :show]
 ```
 
-#### 摘要身份认证
+#### Digest Authentication
 
 ```
 USERS = { "xuwenzhi" => "111111" }
- 
+
 before_action :authenticate
 private
     def authenticate
@@ -820,15 +821,15 @@ private
 [http://guides.ruby-china.org/active_record_querying.html](http://guides.ruby-china.org/active_record_querying.html)
 
 
-# 数据库查询器
+# Database Query Builder
 
-假如有这样的数据表article,有title、content等字段，现在有一个搜索功能，需要通过title来查找数据，这时我们可以使用rails提供的数据库查询器功能，具体的做法是
+Suppose there's a data table article with title, content, and other fields. Now there's a search feature that needs to find data by title. We can use the database query builder provided by Rails:
 
 ```
 @articles = Article.find_all_by_title(params[:search_string])
 ```
 
-那么，需求来了，如果也需要提供content查找的话，该怎么做呢？
+Now, what if we also need to search by content?
 
 ```
 @articles = Article.find(:all, :conditions => ["title = ? OR content => ?",  params[:search_string], pamras[:search_string]])
@@ -837,35 +838,35 @@ private
 
 # Session
 
-## 在Rails中有几种方式存储Session
+## Ways to Store Sessions in Rails
 
-- ActionDispatch::Session::CookieStore：所有数据都存储在客户端
+- ActionDispatch::Session::CookieStore: All data stored on the client
 
-- ActionDispatch::Session::CacheStore：数据存储在 Rails 缓存里
+- ActionDispatch::Session::CacheStore: Data stored in Rails cache
 
-- ActionDispatch::Session::ActiveRecordStore：使用 Active Record 把数据存储在数据库中（需要使用 activerecord-session_store gem）
+- ActionDispatch::Session::ActiveRecordStore: Uses Active Record to store data in database (requires activerecord-session_store gem)
 
-- ActionDispatch::Session::MemCacheStore：数据存储在 Memcached 集群中（这是以前的实现方式，现在请改用 CacheStore）
+- ActionDispatch::Session::MemCacheStore: Data stored in Memcached cluster (this is the old implementation; now use CacheStore instead)
 
 
-## 默认模式
+## Default Mode
 
 CookieStore
 
-## 配置文件
+## Configuration File
 
 config/initializers/session_store.rb
 
 ```
 # Be sure to restart your server when you modify this file.
 
-# 相关联cookie的名字
-# 后面的 :domain键可以指定哪些域可以使用此cookie
+# Associated cookie name
+# The :domain key can specify which domains can use this cookie
 Rails.application.config.session_store :cookie_store, key: '_newblog_session', domain: ".example.com"
 
 ```
 
-## cookie秘钥
+## Cookie Secret Key
 
 config/secrets.yml
 
@@ -894,7 +895,7 @@ production:
   secret_key_base: <%= ENV["SECRET_KEY_BASE"] %>
 ```
 
-## session get/create/delete
+## Session Get/Create/Delete
 
 ```
 def current_user
@@ -923,11 +924,11 @@ end
 ```
 
 
-> 删除会话中的数据是把键的值设为 nil，但要删除 cookie 中的值，要使用 cookies.delete(:key) 方法。
+> To delete session data, set the key's value to nil. To delete cookie values, use cookies.delete(:key) method.
 
 ## Flash
 
-> Flash 是会话的一个特殊部分，每次请求都会清空。也就是说，其中存储的数据只能在下次请求时使用，可用来传递错误消息等。
+> Flash is a special part of the session that is cleared with each request. This means data stored there can only be used in the next request, useful for passing error messages.
 
 ```
 class LoginsController < ApplicationController
@@ -944,7 +945,7 @@ end
     <% flash.each do |name, msg| -%>
       <%= content_tag :div, msg, class: name %>
     <% end -%>
- 
+
     <!-- more content -->
   </body>
 </html>
@@ -954,11 +955,11 @@ end
 
 # Cookie
 
-## 配置文件
+## Configuration File
 
 config/initializers/cookies_serializer.rb
 
-> Rails 还提供了签名 cookie 和加密 cookie，用来存储敏感数据。签名 cookie 会在 cookie 的值后面加上一个签名，确保值没被修改。加密 cookie 除了会签名之外，还会加密，让终端用户无法读取。
+> Rails also provides signed and encrypted cookies for storing sensitive data. Signed cookies append a signature to the cookie value to ensure it hasn't been modified. Encrypted cookies sign and encrypt data so end users cannot read it.
 
 ```
 # Be sure to restart your server when you modify this file.
@@ -967,35 +968,34 @@ Rails.application.config.action_dispatch.cookies_serializer = :json
 ```
 1. :json
 2. :marshal
-3. :hybrid : 读取时，Rails 会自动返序列化使用 Marshal 序列化的 cookie，写入时使用 JSON 格式。
+3. :hybrid: When reading, Rails will automatically deserialize cookies serialized with Marshal. When writing, it uses JSON format.
 
 
-## 自定义序列化模式
+## Custom Serialization Mode
 
 ```
-# MyCustomSerializer需要定义load和dump方法
+# MyCustomSerializer needs to define load and dump methods
 Rails.application.config.action_dispatch.cookies_serializer = MyCustomSerializer
 ```
 
-## Cookie create/delete
+## Cookie Create/Delete
 
 ```
-//set
+// set
 cookie[:key] = value
 
-//delete
+// delete
 cookie.delete(:key)
 ```
 
 
-# json VS. marshal
+# JSON vs. Marshal
 
 [shilov/redis_json_marshal_eval_benchmarks.rb](https://gist.github.com/shilov/1691428)
 
 
 # Reference
 
-[Rails 实践](https://www.gitbook.com/book/liwei78/rails-practice/details)
-
+[Rails Practice](https://www.gitbook.com/book/liwei78/rails-practice/details)
 
 

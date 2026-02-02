@@ -4,258 +4,247 @@ title: How to design a good API and why it matters
 tags: design
 ---
 
-# 为什么API设计很重要？应该怎样去设计？
+# Why Does API Design Matter? How Should We Design APIs?
 
 <!-- more -->
 
 Joshua Bloch
-Principal Software Engineer  - Google
 
-[查看在线英文原版](http://xuwenzhi.com/wp-content/uploads/2015/12/How-to-design-a-good-API.pdf)
-
---
-
-# 为什么API设计很重要
-**API很大程度上会成为一个公司的优势**
-
-- 一个好的API设计可以减少开发者理解的时间
-
-- API不能停止对外访问，所以在设计阶段一定要做好设计
-
-- 坏的API也同样会为公司带来不利的影响
-
-- 对外的API是长久的，一处改变将会影响很多问题
-
----
-
-# 为什么API设计对你很重要？
-- 如果你是API设计者，应该将API系统设计成模块化、组件化的
-
-- 模块化的代码将使得重用性大大提升
-
-- 好的API设计同样可以提升代码质量
-
----
-
-# 优秀API的特点
-- 容易理解，可读性强
-
-- 容易使用，最好不用看文档就能理解API的作用
-
-- 容易阅读且可维护
-
-- 容易扩展
-
-
----
-
-
-# 具体应该怎样去设计？
-
-1. API设计步骤
-
-2. 通常的原则
-
-3. 类设计
-
-4. 方法设计
-
-5. 异常该如何处理
-
-
+[Principal Software Engineer - Google](http://xuwenzhi.com/wp-content/uploads/2015/12/How-to-design-a-good-API.pdf)
 
 --
 
-## 1. API设计步骤
+# Why API Design Matters
 
-__一定要全面的理解需求以及日后可能的需求变更__
+**APIs can significantly become a company's competitive advantage**
 
-- 通常你会得到建议性的解决方案，要记住，好的解决方案真的存在
+- A well-designed API can reduce the time developers need to understand it
 
-- 争取对收集到的需求进行细致性的划分
+- APIs cannot stop external access, so proper design must be done during the design phase
 
-- 好的设计一定是最简单的，简单即是美
+- A bad API can also bring negative impacts to the company
 
-__在动手写之前要做什么？__
+- External APIs are long-lasting; one change will affect many things
 
-- 动手写之前要做好准备，你可能会推翻之前的设计
+---
 
-- 动手写之前确保你已经有效的细化了API的细节
+# Why Does API Design Matter to You?
 
-- 持续不断地完成API，直到完成了所有需求
+- If you are an API designer, you should design the API system to be modular and component-based
 
+- Modular code will greatly improve reusability
 
-__切实可行地处理各种异常__
+- Good API design can also improve code quality
 
+---
 
-- 争取尽量预见可能发生的错误
+# Characteristics of an Excellent API
 
-- 你的API可能会使用很久，争取预见将来可能会遇到的坑，并解决它！
+- Easy to understand, highly readable
 
+- Easy to use, preferably understandable without reading documentation
 
-# 2.通常的原则
+- Easy to read and maintainable
 
-__一个API应该只做一件事，并把该做的事做到最好__
+- Easy to extend
 
-- 功能应简单并容易理解
+---
 
-- 如果很难命名，这通常是一个不好的信号
+# How Should We Specifically Design APIs?
 
-- 好的命名能推进我们的开发工作
+1. API Design Steps
 
-- 一个API应是由多个模块组合而成，并且是有机的拆分
+2. General Principles
 
+3. Class Design
 
-__最小化每件事情__
+4. Method Design
 
-- 确保类和类的成员尽可能私有化
+5. How to Handle Exceptions
 
-- 公开的类不应该有公开的成员，除了常量
+--
 
-- 尽可能的对外隐藏类的信息
+## 1. API Design Steps
 
-- 保证每一个模块是可用的、可理解的、可强化的、可测试的和可debug的。
+**You must fully understand requirements and possible future changes**
 
-__名字很重要，API就像一门小型的语言__
+- You will often receive suggested solutions; remember, good solutions really do exist
 
-- 名字应该尽可能可以描述自己
+- Strive to carefully categorize the collected requirements
 
-- 命名要有规律性
+- Good design is always the simplest; simplicity is beauty
 
-- 代码应读起来像散文
+**What should you do before coding?**
 
-***
+- Be prepared before coding; you might overturn your previous design
 
-	if (car.speed() > 2 * SPEED_LIMIT) 
+- Make sure you have effectively refined the API details before coding
 
-		generateAlert("Watch out for cops!");
+- Continuously complete the API until all requirements are fulfilled
 
-***
+**Handle various exceptions in a practical manner**
 
-__文档很重要__
+- Try to foresee possible errors
 
-> 可重用是一件说得容易做起来难的事情，能够做到可重用需要良好的设计和漂亮的文档，好的设计是很罕见的。但是如果没有好的文档，就绝不可能出现可重用的模块。 - D. L. Parnas, _Software Aging. Proceedings of 16th International Conference Software
-Engineering, 1994
+- Your API may be used for a long time; try to anticipate future pitfalls and solve them!
 
+# 2. General Principles
 
-__API设计要考虑性能__
+**An API should do one thing and do it well**
 
-### 哪些坏的决定会影响性能
+- Functionality should be simple and easy to understand
 
-- 使用可变类型
+- If it's hard to name, that's usually a bad sign
 
-- 提供构造方法而不用工厂
+- Good naming can drive our development work
 
-- 使用实施类型代替接口
+- An API should be composed of multiple modules, organically separated
 
-### 不要为了提升性能，搞乱了API
+**Minimize everything**
 
-- 引起性能问题的问题可以解决，但扭曲的设计将永远存在
+- Ensure classes and their members are as private as possible
 
-- 好的设计通常会兼顾性能
+- Public classes should not have public members, except constants
 
-__API应与它所运行的环境相互融合__
+- Hide as much class information as possible from the outside
 
-### 按照惯例做事
+- Ensure each module is usable, understandable, enhanceable, testable, and debuggable
 
-- 服从标准
+**Names matter; an API is like a small language**
 
-- 避免特殊的参数和返回值
+- Names should be as self-descriptive as possible
 
-- 效仿核心API和语言风格
+- Naming should follow patterns
 
+- Code should read like prose
 
-# 3.类设计
+---
 
-__最大限度的减小可变性__
+    if (car.speed() > 2 * SPEED_LIMIT)
 
-- 除非给出一个不错的理由，否则设计好的类就不要再改动了
+    	generateAlert("Watch out for cops!");
 
-- 如果一定需要改动，类要短小，定义明确，并且拥有清晰合理的函数调用
+---
 
-```
-Bad: 
+**Documentation matters**
 
-	Date,Calendar 
+> Reusability is easier said than done. Achieving reusability requires good design and beautiful documentation. Good design is rare, but without good documentation, reusable modules are impossible. - D. L. Parnas, \_Software Aging. Proceedings of 16th International Conference Software Engineering, 1994
 
-Good: 
+**API design should consider performance**
 
-	TimerTask
-```
+### What bad decisions affect performance
 
-__子类一定要有它存在的意义__
+- Using mutable types
 
-### 定义子类意味着它的替代意义
+- Providing constructors instead of factories
 
-- 只有确实存在着有意义的关系(比如继承)的时候，才会定义子类
+- Using implementation types instead of interfaces
 
-- 另外，继承时也别忘了看看是否可以使用组合模式
+### Don't mess up the API just to improve performance
 
-### 公开的类不应该继承出子类
+- Problems causing performance issues can be fixed, but distorted designs will exist forever
 
-```
-Bad: 
+- Good design usually balances performance
 
-	Properties extends Hashtable 
-	
-	Stack extends Vector
-Good: 
+**An API should integrate well with its operating environment**
 
-	Set extends Collection
-```
+### Follow conventions
 
-__如果使用了继承请一定要写设计文档__
+- Comply with standards
 
-### 继承违反了封装
+- Avoid unusual parameters and return values
 
-- 因为继承导致子类对父类的实现细节敏感
+- Emulate core API and language styles
 
-- 保守的做法：所有的类都应该是final的
+# 3. Class Design
+
+**Minimize mutability**
+
+- Unless there's a good reason, don't modify a well-designed class
+
+- If changes are necessary, keep classes small, well-defined, and with clear and reasonable function calls
 
 ```
 Bad:
 
-	Many concrete classes in J2SE libraries 
-Good: 
+	Date, Calendar
+
+Good:
+
+	TimerTask
+```
+
+**Subclasses must have a reason to exist**
+
+### Defining a subclass implies its substitution meaning
+
+- Only define subclasses when meaningful relationships (like inheritance) truly exist
+
+- Also, when inheriting, don't forget to consider if the composite pattern can be used
+
+### Public classes should not be subclassed
+
+```
+Bad:
+
+	Properties extends Hashtable
+
+	Stack extends Vector
+Good:
+
+	Set extends Collection
+```
+
+**If you use inheritance, be sure to write design documentation**
+
+### Inheritance violates encapsulation
+
+- Because inheritance makes subclasses sensitive to the implementation details of parent classes
+
+- The conservative approach: all classes should be final
+
+```
+Bad:
+
+	Many concrete classes in J2SE libraries
+Good:
 
 	AbstractSet, AbstractMap
 
 ```
 
+# 4. Method Design
 
-# 4.方法设计
+### Don't let what a module should do be done by one method; split it up
 
-### 不要让一个模块要做的事，被一个方法都干了，要做拆分
+### Don't violate the [Principle of Least Astonishment](http://programmers.stackexchange.com/questions/187457/what-is-the-principle-of-least-astonishment)
 
-### 不要违反[最小惊讶原则](http://programmers.stackexchange.com/questions/187457/what-is-the-principle-of-least-astonishment)
+### When errors occur, report them as quickly as possible
 
-### 当错误发生后，尽可能迅速的上报错误
+### Use appropriate parameter types and return value types
 
-### 使用恰当的参数类型和返回值类型
+- Use more specific parameter types
 
-- 使用更具体的参数类型
+- If a better type exists, don't use strings
 
-- 如果有一种更好的类型存在，不要使用字符串
+- Don't use float when representing currency amounts; it will cause precision issues
 
-- 在表示货币金额时，不要使用float，会导致精度问题
+- double (64 bits) is better than float (32 bits)
 
-- double(64 bits) 要好于 float(32 bits)
+- Consistent parameter types and order throughout the method are important
 
-- 贯穿整个方法，一致的参数类型和顺序是很重要的
+- Avoid long parameter lists, or keep the number of parameters as small as possible
 
-- 避免过长的参数列表，或者说参数数量应尽可能的少
+- Avoid special return values; if the return value is empty, return an array(), don't return null
 
-- 避免特殊的返回值，如果返回值为空，要返回一个array()，不要返回null
+# 5. How to Handle Exceptions
 
+Throwing an exception means the program has entered abnormal conditions, but give the client a smooth handling result. Conversely, don't do nothing; at least logging is acceptable.
 
-# 5. 异常该如何处理
+### Capture failure information in exceptions
 
-抛异常意味着程序进入了异常的条件，但要给client一个平滑的处理结果。相反，也不要什么都不做，最起码打个日志还是可以的。
+- Allow diagnosis, fixing, and recovery
 
-### 在异常中捕获失败的信息
+- For unchecked exceptions, $e->message() is sufficient
 
-- 允许诊断、修复和恢复
-
-- 对于没有经过检查的异常，$e->message()就足够了
-
-- 而对于经过检查的异常，提供给调用方最好
+- For checked exceptions, providing information to the caller is best

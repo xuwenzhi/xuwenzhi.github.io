@@ -1,104 +1,106 @@
 ---
 layout: post
-title: 【读书总结】- 极客与团队
+title: Book Summary - Team Geek
 tags: reading
 ---
 
-## 为什么要团队合作?
-- 项目的成功因素往往人的因素占的比重更大
-- 隐瞒是有害的，单打独斗的结果往往令人失望
-- 尽早沟通、不隐瞒往往能降低失败的概率
-- 确保失败尽早发生，尽快发生，经常发生
-- 软件开发是集体项目
+## Why Work as a Team?
+
+- Human factors often play a larger role in project success
+- Hiding is harmful; solo efforts often lead to disappointing results
+- Communicating early and not hiding things often reduces the probability of failure
+- Ensure failures happen early, fast, and frequently
+- Software development is a collective endeavor
 
 <!-- more -->
 
-> 闭门造车往往没有收效，原因可能为造的车在一开始的时候就是错的，因为过于主观，也可能会因为自己闭门而丧失和他人沟通的机会而过时。
+> Working in isolation often yields no results. The reason might be that what you're building was wrong from the start because it was too subjective, or you might miss communication opportunities with others and become outdated.
 
-## 影响项目的因素
+## Factors That Affect Projects
 
-- 公车因子  
-- 多面手？
+- Bus Factor
+- Generalist?
 
-足够多双眼睛能够保证项目保持正确的方向。
+Enough eyes ensure the project stays on the right track.
 
-## 三支柱HRT
-- 谦虚
-- 尊重
-- 信任
+## The Three Pillars: HRT
 
-## 如何应对失败?
+- Humility
+- Respect
+- Trust
 
-- 没按时完成需求？
-- 因为你的代码、配置错误等疏忽导致线上事故？
-- 如果没有经历过失败的话，就说明你的创新还不够，或者你承担的风险还太小。
+## How to Handle Failure?
 
+- Didn't meet the deadline?
+- Caused a production incident due to your code, configuration errors, or other oversights?
+- If you haven't experienced failure, it means you're not innovating enough, or you're taking too few risks.
 
-## 如何写检讨邮件？
-- 简要
-- 时间线，从发现到调查到最终结果
-- 主因
-- 影响和损失评估
-- 立即修正问题的步骤
-- 防止事件再次发生的步骤
-- 得到的教训
+## How to Write a Post-Mortem Email?
 
-## 团队最重要的因素:文化!
+- Brief summary
+- Timeline: from discovery to investigation to final outcome
+- Root cause
+- Impact and loss assessment
+- Immediate steps to fix the issue
+- Steps to prevent recurrence
+- Lessons learned
 
-- 文化的产生就是为了团队的目标而诞生！大到一个民族小到一个团队都是如此！
+## The Most Important Factor for a Team: Culture!
 
-## 什么又是团队的文化呢？
+- Culture is born for the team's goals! This applies to everything from a nation to a small team!
 
-一般说起文化会是比较抽象的概念，那么对于工程师团队来说文化意味着什么？简单来说是团队成员做事的普适性或者说团队的传统，如团队成员的价值观、目标、认同感，做代码审查、测试驱动开发方式或者是每周五晚的桌游活动等等，都是文化的一种。
+## What is Team Culture?
 
+Culture is typically an abstract concept. So what does culture mean for an engineering team? Simply put, it's the universal practices or traditions of team members, such as team members' values, goals, sense of identity, code reviews, test-driven development, or Friday night board game activities. All of these are forms of culture.
 
+## How to Build Team Culture & How to Protect It?
 
-## 如何营造团队文化&如何保护它?
-团队文化一般是从最初的创始团队有意识或者无意识中营造出来的，而慢慢的随着规模的扩大，这种文化也就慢慢的留存了下来，在不断的吸收好的事物摒弃坏的事物的过程中不断壮大。
-然而有句话叫"打江山容易守江山难"，这句话不无道理的是，团队总会加入新鲜血液，而新鲜血液中也并不代表没有有害的东西，而这时如果团队的文化不够"强势"，则可能发生"一条鱼搅了满锅腥"的现象，所以如何保护好文化多数靠团队文化本身是否够深厚和团队中老成员是否能够冲出来保护这来之不易的团队文化。
+Team culture is usually created consciously or unconsciously by the founding team. As the team grows, this culture gradually persists, continuously absorbing good things and discarding bad ones.
 
+However, there's a saying: "It's easier to conquer a kingdom than to keep it." This saying makes sense because teams will always have new blood, and new blood doesn't necessarily mean there's nothing harmful. At this time, if the team culture isn't "strong" enough, a "one bad apple spoils the barrel" phenomenon may occur. So protecting culture mostly depends on whether the team culture is deep enough and whether senior members can step up to protect this hard-won team culture.
 
+## Team Members?
 
-## 团队成员？
+- Constructive criticism, no mockery
+- The fewer people in synchronous communication (face-to-face meetings), the better; the more people in asynchronous communication (email lists), the better
+- Write a mission statement for major projects to keep goals clear and let other members know, achieving harmony while respecting differences
 
-- 建设性批评，莫要嘲笑
-- 同步沟通(面对面开会)时人越少越好，异步沟通(邮件列表)时人越多越好
-- 为大项目撰写任务宗旨，保持目标清晰，也可以和其他成员知道，以达到求同存异的效果
+## How to Be a Technical Leader?
 
-## 如何去做技术leader？
+Be a servant leader. Don't start with a bang when taking office. A leader's most important job is to serve the team and work hard to create an atmosphere of humility, respect, and trust.
 
-要做一个仆人式领导，别新官上任三把火，leader最重要的工作就是为团队服务，努力营造一种谦虚、尊重和信任的氛围。
+## Don't:
 
-## 不要做:
-- 不要雇佣听话的人 : 应该去雇佣那些比你聪明、可以替代你的人，虽然有时他们会挑战你，但同时也会交出漂亮的工作。
-- 不要无视表现不佳的人 ：往往会因为一两个表现不佳的人使得团队无法更进一步。
-- 不要无视人际关系
-- 不要和谁都是朋友：如果要做一个强势的领导，可以和大家一起吃午饭聊些随性的东西。
-- 不要降低招聘标准
-- 不要把团队当小孩子：给团队充分的掌控力
+- Don't hire yes-men: Hire people who are smarter than you and can replace you. Although they may challenge you sometimes, they will also deliver excellent work.
+- Don't ignore underperformers: Often one or two underperformers prevent the team from advancing further.
+- Don't ignore interpersonal relationships
+- Don't be friends with everyone: If you want to be a strong leader, you can have casual chats with everyone over lunch.
+- Don't lower hiring standards
+- Don't treat the team like children: Give the team full control
 
-## Leader的处世之道
+## A Leader's Way of Life
 
-- 放下自负
-- 做一个禅师：时刻保持冷静
-- 成为团队的催化剂
-- 做一个导师
-- 设置明确的目标
-- 坦诚 ：禁止使用三明治赞美法
-- 其他：知道什么时候做恶人； 保护团队；
+- Let go of ego
+- Be a Zen master: Stay calm at all times
+- Be a catalyst for the team
+- Be a mentor
+- Set clear goals
+- Be honest: Avoid the compliment sandwich method
+- Others: Know when to be the bad guy; Protect the team
 
-## 害群之马
-- 不尊重别人的时间
-- 自负
-- 过分索取
-- 幼稚或莫名其妙的交流
-- 偏执妄想
-- 完美主义
+## Bad Apples
 
-## 最后
+- Disrespecting others' time
+- Arrogance
+- Excessive demands
+- Childish or nonsensical communication
+- Paranoia
+- Perfectionism
 
-> 做正确的事情，随时准备被开除  -- 陈一鸣
+## Finally
 
-# refer
+> Do the right thing, always be ready to be fired -- Chen Yiming
 
-[萝卜和棍子 与 自主性、掌控力、使命感](http://open.163.com/movie/2015/6/N/G/MAPPMO5L9_MAPPQ9ING.html)
+# Reference
+
+[Carrots and Sticks vs. Autonomy, Mastery, and Purpose](http://open.163.com/movie/2015/6/N/G/MAPPMO5L9_MAPPQ9ING.html)

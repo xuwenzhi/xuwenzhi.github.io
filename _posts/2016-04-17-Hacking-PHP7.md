@@ -4,46 +4,39 @@ title: Hacking PHP7
 tags: php php-internals
 ---
 
-如果你正在学习PHP内核相关的知识，这个过程会相当枯燥，并且我猜你并不知道如何下手，这篇文章会给你一个不错的路线！
+If you're learning about PHP internals, this process can be quite tedious, and I bet you don't know where to start. This article will give you a great roadmap!
 
 <!-- more -->
 
-## 准备工作
+## Prerequisites
 
-- PHP源码一份
-- 可以正常工作的Linux环境
-- 先不要归根究底，迅速走一遍流程。
+- A copy of PHP source code
+- A working Linux environment
+- Don't get too deep at first; quickly go through the process once
 
-## PHP7代码执行流程
+## PHP7 Code Execution Flow
 
-之所以说是PHP7，是因为PHP7的改动还是很大的，所以和之前的版本略有不同，想知道PHP之前版本文件的执行流程可以移步看下这里[深入理解PHP代码的执行的过程](http://c.colabug.com/thread-1024603-1-1.html)
+The reason we're talking about PHP7 specifically is that PHP7 has significant changes, so it differs slightly from previous versions. If you want to learn about the code execution flow of earlier PHP versions, you can check out [Deep Understanding of PHP Code Execution Process](http://c.colabug.com/thread-1024603-1-1.html)
 
-![php5代码执行流程](http://img.xuwenzhi.com/php-code-execute-process.png?zoom=2&resize=710%2C394)
+![PHP5 Code Execution Flow](http://img.xuwenzhi.com/php-code-execute-process.png?zoom=2&resize=710%2C394)
 
-此图也正是PHP5代码执行的流程，之所以这么说是因为PHP7的代码执行流程稍有不同，PHP7中多加了一道工序，叫做抽象语法树AST(参考[何为抽象语法树](https://www.jianshu.com/p/8fa61a552ecf))，那
-到底这道工序加在哪里，就在Parsing之后也就是语法分析之后和编译之前，对于加了这道工序之后会不会导致PHP7程序执行变慢的问题，可以参考[PHP7 的抽象语法树（AST）](https://www.tuicool.com/articles/iYJNB3V)带来的变化。
+This diagram shows the PHP5 code execution flow. The reason I mention this is that PHP7's code execution flow is slightly different. PHP7 added an extra step called Abstract Syntax Tree (AST) (see [What is an Abstract Syntax Tree](https://www.jianshu.com/p/8fa61a552ecf)). So where exactly is this step added? It's after Parsing (syntax analysis) and before compilation. For the question of whether adding this step slows down PHP7 program execution, you can refer to [Changes Brought by PHP7's Abstract Syntax Tree (AST)](https://www.tuicool.com/articles/iYJNB3V).
 
-![php7代码执行流程](http://img.xuwenzhi.com/php7_code_execute.png?zoom=2&resize=710%2C238)
+![PHP7 Code Execution Flow](http://img.xuwenzhi.com/php7_code_execute.png?zoom=2&resize=710%2C238)
 
 ---
 
-好了，既然对于PHP7的执行有个大致的了解，接下来就深入PHP7内核中去，
-在本例子中我们将在内核中实现一个新的函数，该函数的功能基本和print()函
-数的功能一样，功能虽然简单，但是对于理解PHP7内核很有意义。
+Now that we have a general understanding of PHP7 execution, let's dive into the PHP7 internals. In this example, we'll implement a new function within the internals that basically has the same functionality as the print() function. Although the functionality is simple, it's very meaningful for understanding PHP7 internals.
 
-最终成果:
+Final Result:
 
 {% highlight bash %}
 ./sapi/cli/php -r "echo hackphp('hacking PHP7');"
 {% endhighlight %}
 
-### 构造词法分析片段
+### Constructing the Lexical Analysis Fragment
 
-编辑Zend/zend*language_scanner.l文件，该文件中你会发现大量T*开头的变量，
-你可以试着搜索一下你T_IF、T_ECHO或者T_INCLUDE，所以不难想象，在该文件
-中定义了PHP中的常用的关键字的片段，假如你在PHP代码中使用了if判断，那么
-词法分析就会映射到T_IF，为下一步语法分析做准备，好到此为止我打住，在如
-下位置添加代码(只需添加//…start和//…end之间的代码即可，后面同样)
+Edit the Zend/zend_language_scanner.l file. In this file, you'll find many variables starting with T_. You can try searching for T_IF, T_ECHO, or T_INCLUDE. It's not hard to imagine that this file defines the keyword fragments commonly used in PHP. For example, if you use an if statement in PHP code, the lexical analyzer will map it to T_IF, preparing for the next step of syntax analysis. Let me stop here; add code at the following position (only add the code between //...start and //...end; the same applies later):
 
 {% highlight c %}
 <ST_IN_SCRIPTING>"else" {
@@ -59,9 +52,9 @@ RETURN_TOKEN(T_WHILE);
 }
 {% endhighlight %}
 
-### 构造语法表达式
+### Constructing Syntax Expressions
 
-编辑Zend/zend_language_parser.y，在此文件中依然可以找到类似于T_IF这样的变量，此文件中将为我们的hackphp()函数构造一些表达式和一些语法解析规则，并为下一步生成语法树做准备!
+Edit Zend/zend_language_parser.y. In this file, you can also find variables like T_IF. This file will construct some expressions and syntax parsing rules for our hackphp() function, preparing for the next step of generating the syntax tree!
 
 {% highlight c %}
 %token T_INCLUDE "include (T_INCLUDE)"
@@ -70,7 +63,7 @@ RETURN_TOKEN(T_WHILE);
 //...end
 %token T_INCLUDE_ONCE "include_once (T_INCLUDE_ONCE)"
 
-//...省略
+//...omitted
 
 %left '&'
 //...start
@@ -78,7 +71,7 @@ RETURN_TOKEN(T_WHILE);
 //...end
 %nonassoc T_IS_EQUAL T_IS_NOT_EQUAL T_IS_IDENTICAL T_IS_NOT_IDENTICAL T_SPACESHIP
 
-//...省略
+//...omitted
 
     |   T_STATIC function returns_ref backup_doc_comment '(' parameter_list ')' lexical_vars
         return_type '{' inner_statement_list '}'
@@ -96,8 +89,10 @@ T_FUNCTION { $$ = CG(zend_lineno); }
 ;
 {% endhighlight %}
 
-3.通知AST解析我们的hackphp()函数
-编辑Zend/zend_ast.h，在枚举变量\_zend_ast_kind中添加
+### 3. Notify AST to Parse Our hackphp() Function
+
+Edit Zend/zend_ast.h, and add to the enum variable \_zend_ast_kind:
+
 {% highlight c %}
 ZEND_AST_CONTINUE,
 //...start
@@ -105,68 +100,69 @@ ZEND_AST_HACKPHP,
 //...end
 {% endhighlight %}
 
-4.通知Zend VM编译我们的hackphp()函数
-下面我们将通知Zend VM来编译我们的hackphp()，编辑Zend/zend_compile.c文件，首先找到zend_compile_expr()函数，增加一种case ZEND_AST_HACKPHP
+### 4. Notify Zend VM to Compile Our hackphp() Function
+
+Next, we'll notify the Zend VM to compile our hackphp(). Edit the Zend/zend_compile.c file. First, find the zend_compile_expr() function and add a case for ZEND_AST_HACKPHP:
 
 {% highlight c %}
-//...省略
-case ZEND*AST_CLOSURE:
+//...omitted
+case ZEND_AST_CLOSURE:
 zend_compile_func_decl(result, ast);
 return;
 //...start
-case ZEND_AST_HACKPHP:  
- zend_compile_hackphp(result, ast);  
- return;  
+case ZEND_AST_HACKPHP:
+ zend_compile_hackphp(result, ast);
+ return;
 //...end
 default:
-ZEND_ASSERT(0 /* not supported \_/);
-}  
+ZEND_ASSERT(0 /* not supported */);
+}
 }
 {% endhighlight %}
 
-然后在zend_compile_expr()函数下方定义zend_compile_hackphp()函数
+Then define the zend_compile_hackphp() function below zend_compile_expr():
 
 {% highlight c %}
 void zend_compile_hackphp(znode *result, zend_ast *ast)
 {
-zend_ast \*expr_ast = ast->child[0];
+zend_ast *expr_ast = ast->child[0];
 znode expr_node;
 zend_compile_expr(&expr_node, expr_ast);
 zend_emit_op(result, ZEND_HACKPHP, &expr_node, NULL);
 }
 {% endhighlight %}
 
-5.让Zend VM可以认识并执行hackphp()函数生成的OPCODE
+### 5. Let Zend VM Recognize and Execute the OPCODE Generated by hackphp()
 
-编辑Zend/zend_vm_def.h文件，我的建议是首先定位到文件底部，然后添加如下函数
+Edit the Zend/zend_vm_def.h file. My suggestion is to first navigate to the bottom of the file, then add the following function:
 
 {% highlight c %}
-ZEND_VM_HANDLER(184, ZEND_HACKPHP, ANY, ANY)  
-{  
- USE_OPLINE  
- zend_free_op free_op1;  
- zval \*op1;
+ZEND_VM_HANDLER(184, ZEND_HACKPHP, ANY, ANY)
+{
+ USE_OPLINE
+ zend_free_op free_op1;
+ zval *op1;
 
-SAVE_OPLINE();  
+SAVE_OPLINE();
  op1 = GET_OP1_ZVAL_PTR_UNDEF(BP_VAR_R);
 
-if (Z_TYPE_P(op1) != IS_STRING) {  
- zend_throw_exception_ex(NULL, 0,  
- "hackphp expects a string !");  
- HANDLE_EXCEPTION();  
- }  
+if (Z_TYPE_P(op1) != IS_STRING) {
+ zend_throw_exception_ex(NULL, 0,
+ "hackphp expects a string !");
+ HANDLE_EXCEPTION();
+ }
  ZVAL_COPY(EX_VAR(opline->result.var), op1);
 
-FREE_OP1();  
- ZEND_VM_NEXT_OPCODE_CHECK_EXCEPTION();  
-}  
-{% endhighlight c %}
+FREE_OP1();
+ ZEND_VM_NEXT_OPCODE_CHECK_EXCEPTION();
+}
+{% endhighlight %}
 
-如果走到现在，就证明我们已经将所需要的所有代码都添加好了，如果你注意到了的话，代码的处理顺序也正好按照PHP7代码的执行顺序走的，所以也加深了你对PHP代码执行流程的印象，好，接下来我们将试验我们的hackphp()函数是否能够正常工作!
+If you've made it this far, it means we've added all the necessary code. If you noticed, the order of code processing follows exactly the PHP7 code execution order, which reinforces your understanding of the PHP code execution flow. Now, let's test whether our hackphp() function works properly!
 
-编译PHP7
+### Compiling PHP7
 
-按照如下顺序编译PHP7，如果报错的话，那么请回顾一下刚刚的过程看看有没有纰漏~
+Compile PHP7 in the following order. If you get errors, review the steps above to see if you missed anything:
 
 {% highlight c %}
 ./buildconf
@@ -174,12 +170,12 @@ FREE_OP1();
 make
 {% endhighlight %}
 
-## 验证hackphp()
+## Verifying hackphp()
 
 {% highlight c %}
 ./sapi/cli/php -r "echo hackphp('hacking PHP7!');"
 {% endhighlight %}
 
-# 结语
+# Conclusion
 
-如果看到输出"hacking PHP7!"，那么恭喜你，你已经了解了PHP代码的执行流程并且了解了PHP7内核的一些很重要的知识。细想一下还是有收获的。通过此试验，对于如何学习PHP内核知识及阅读PHP源代码我相信你也许有了答案。
+If you see "hacking PHP7!" output, congratulations! You've now understood the PHP code execution flow and learned some very important knowledge about PHP7 internals. Thinking about it, there are definitely gains from this. Through this experiment, I believe you may now have an answer to how to learn PHP internals and read PHP source code.
