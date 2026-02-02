@@ -34,7 +34,7 @@ excerpt_separator:  '<!-- more -->'
 header_pages:
   - _pages/about.md
   - _pages/contact.md
-  - _pages/github.md
+  # - _pages/github.md
 
 plugins:
   - jekyll-feed
