@@ -37,29 +37,18 @@ return bit_array[index1] && bit_array[index2] && bit_array[index3] ...
 ## Process
 
 1. add geeks
-![](http://cdncontribute.geeksforgeeks.org/wp-content/uploads/geeks1-300x107.png)
 
 2. add nerd
 
-![](http://cdncontribute.geeksforgeeks.org/wp-content/uploads/nerd-300x114.png)
-
 3. check cat
 
-![](http://cdncontribute.geeksforgeeks.org/wp-content/uploads/cat-300x109.png)
-
 From the three diagrams above, we can see that the Bloom filter is a probabilistic matter with a certain **Probability of False Positivity**. How much is this false positive rate? It depends on the following formula:
-
-![](https://www.geeksforgeeks.org/wp-content/ql-cache/quicklatex.com-78e77c34323cfb8afff2a80c0e91b26d_l3.svg)
 
 Suppose we want a 1% **Probability of False Positivity**
 
 - We can then derive the length of bit_array
 
-![](https://www.geeksforgeeks.org/wp-content/ql-cache/quicklatex.com-8a21b35f5419f7968aafd408590b37bd_l3.svg)
-
 - We can also know how many hash functions are needed
-
-![](https://www.geeksforgeeks.org/wp-content/ql-cache/quicklatex.com-88930c4f1e1c21cd0ce0569adbddde16_l3.svg)
 
 ## Advantages
 
@@ -71,7 +60,6 @@ Suppose we want a 1% **Probability of False Positivity**
 
 1. There is a false positive rate, but the specific rate can be controlled
 2. Cannot delete keys, meaning you cannot set the value of the corresponding index in bit_array to 0 for a specific key
-
 
 ## Applications
 

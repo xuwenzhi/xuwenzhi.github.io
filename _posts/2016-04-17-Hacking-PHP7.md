@@ -18,11 +18,7 @@ If you're learning about PHP internals, this process can be quite tedious, and I
 
 The reason we're talking about PHP7 specifically is that PHP7 has significant changes, so it differs slightly from previous versions. If you want to learn about the code execution flow of earlier PHP versions, you can check out [Deep Understanding of PHP Code Execution Process](http://c.colabug.com/thread-1024603-1-1.html)
 
-![PHP5 Code Execution Flow](http://img.xuwenzhi.com/php-code-execute-process.png?zoom=2&resize=710%2C394)
-
 This diagram shows the PHP5 code execution flow. The reason I mention this is that PHP7's code execution flow is slightly different. PHP7 added an extra step called Abstract Syntax Tree (AST) (see [What is an Abstract Syntax Tree](https://www.jianshu.com/p/8fa61a552ecf)). So where exactly is this step added? It's after Parsing (syntax analysis) and before compilation. For the question of whether adding this step slows down PHP7 program execution, you can refer to [Changes Brought by PHP7's Abstract Syntax Tree (AST)](https://www.tuicool.com/articles/iYJNB3V).
-
-![PHP7 Code Execution Flow](http://img.xuwenzhi.com/php7_code_execute.png?zoom=2&resize=710%2C238)
 
 ---
 
