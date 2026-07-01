@@ -91,8 +91,6 @@ Whether a programmer handles a wide range of product business, can be measured b
 
 ### Input Data
 
-![http://img.xuwenzhi.com/programer_evalute_input.png](http://img.xuwenzhi.com/programer_evalute_input.png)
-
 ### Offensive Metrics
 
 This mainly introduces some statistical data and related formulas:
@@ -142,13 +140,9 @@ Junior programmers typically have more possibilities and fewer patterns.
 
 Suggested data to record:
 
-![http://img.xuwenzhi.com/programer_evalute_response.png](http://img.xuwenzhi.com/programer_evalute_response.png)
-
 ### What Data Should Be Recorded?
 
 ##### Skill Metrics and Formulas
-
-![http://img.xuwenzhi.com/QQ20160810-1@2x.png](http://img.xuwenzhi.com/QQ20160810-1@2x.png)
 
 - Wins
 - Win Speed: Average time needed to get a win. Lower is better.

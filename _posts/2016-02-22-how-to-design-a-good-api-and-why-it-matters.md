@@ -10,7 +10,7 @@ tags: design
 
 Joshua Bloch
 
-[Principal Software Engineer - Google](http://xuwenzhi.com/wp-content/uploads/2015/12/How-to-design-a-good-API.pdf)
+Principal Software Engineer - Google
 
 --
 
