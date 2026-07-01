@@ -1,0 +1,6 @@
+_site/
+.jekyll-cache/
+.git/
+.sass-cache/
+Dockerfile
+docker-compose.yml
