@@ -4,7 +4,7 @@ title: About
 permalink: /about/
 ---
 
-Living Seattle, working for Meta.
+Living in Seattle, working at Meta as Software Engineer.
 
 Of course, PHP is the best programming language!
 
